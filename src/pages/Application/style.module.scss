@@ -33,4 +33,25 @@
     background-color: red;
     color: #fff;
   }
+
+  &.empty {
+    background-color: black;
+    color: #fff;
+  }
+}
+
+.close {
+  align-self: flex-end;
+  cursor: pointer;
+  font-size: 1.5em;
+  margin: 0 0 0 auto;
+  padding: 0;
+  border: none;
+  background-color: transparent;
+  color: #fff;
+  outline: none;
+
+  &:hover {
+    color: #000;
+  }
 }

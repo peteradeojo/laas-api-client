@@ -99,6 +99,28 @@ export const laasApi = createApi({
 				},
 			}),
 		}),
+
+		deleteLog: builder.mutation({
+			query: (logId) => ({
+				url: `logs/${logId}/delete`,
+				method: 'DELETE',
+				headers: {
+					...headers,
+					Authorization: `Bearer ${getAuthToken()}`,
+				},
+			}),
+		}),
+
+		clearLogs: builder.mutation({
+			query: (appId) => ({
+				url: `logs/${appId}`,
+				method: 'DELETE',
+				headers: {
+					...headers,
+					Authorization: `Bearer ${getAuthToken()}`,
+				},
+			}),
+		}),
 	}),
 });
 
@@ -111,4 +133,6 @@ export const {
 	useGetAppLogsQuery,
 	useCreateAppMutation,
 	useGenerareAppTokenMutation,
+	useDeleteLogMutation,
+	useClearLogsMutation,
 } = laasApi;

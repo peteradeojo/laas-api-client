@@ -18,6 +18,7 @@ import Dashboard from './pages/Dashboard';
 import Application from './pages/Application';
 
 import { store } from './store';
+import Apps from './pages/Apps';
 
 const routes = createRoutesFromElements(
 	<>
@@ -30,6 +31,7 @@ const routes = createRoutesFromElements(
 
 		<Route path="dashboard" element={<DashBoardLayout />}>
 			<Route index element={<Dashboard />} />
+			<Route path="apps" element={<Apps />} />
 			<Route path="apps/:id" element={<Application />} />
 		</Route>
 	</>

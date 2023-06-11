@@ -1,11 +1,12 @@
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
 
 const headers = {
+	'Content-type': 'application/json',
 	Accept: 'application/json',
 };
 
 // const baseUrl = 'https://laas-api-nest.onrender.com/'
-const baseUrl = 'http://localhost:3000';
+const baseUrl = __APP_ENV__.API_URL;
 
 const getAuthToken = () => localStorage.getItem('authToken');
 
@@ -52,8 +53,19 @@ export const laasApi = createApi({
 			}),
 		}),
 
+		getApp: builder.query({
+			query: (id) => ({
+				url: 'apps/' + id,
+				method: 'GET',
+				headers: {
+					...headers,
+					Authorization: `Bearer ${getAuthToken()}`,
+				},
+			}),
+		}),
+
 		getAppLogs: builder.query({
-			query: ({appId, page = 1, count = 20}) => {
+			query: ({ appId, page = 1, count = 20 }) => {
 				return {
 					url: `logs/${appId}?page=${page}&count=${count}`,
 					method: 'GET',
@@ -64,6 +76,29 @@ export const laasApi = createApi({
 				};
 			},
 		}),
+
+		createApp: builder.mutation({
+			query: (body) => ({
+				url: 'apps/new',
+				method: 'POST',
+				headers: {
+					...headers,
+					Authorization: `Bearer ${getAuthToken()}`,
+				},
+				body,
+			}),
+		}),
+
+		generareAppToken: builder.mutation({
+			query: (appId) => ({
+				url: `apps/${appId}/token`,
+				method: 'POST',
+				headers: {
+					...headers,
+					Authorization: `Bearer ${getAuthToken()}`,
+				},
+			}),
+		}),
 	}),
 });
 
@@ -72,5 +107,8 @@ export const {
 	useSignupMutation,
 	useGetUserQuery,
 	useGetAppsQuery,
+	useGetAppQuery,
 	useGetAppLogsQuery,
+	useCreateAppMutation,
+	useGenerareAppTokenMutation,
 } = laasApi;

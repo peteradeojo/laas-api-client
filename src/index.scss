@@ -22,3 +22,8 @@ body {
   font-size: 1.5em;
   font-weight: bold;
 }
+
+p {
+  max-width: 100%;
+  word-wrap: break-word;
+}

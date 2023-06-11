@@ -1,12 +1,14 @@
 import { useParams } from 'react-router-dom';
-import { useGetAppLogsQuery } from '../../services/api';
+import {
+	useGetAppQuery,
+	useGetAppLogsQuery,
+	useGenerareAppTokenMutation,
+} from '../../services/api';
 
 import styles from './style.module.scss';
 import { useState } from 'react';
 
 const Log = ({ log }) => {
-	const [page, setPage] = useState(1);
-
 	return (
 		<>
 			<div className={`${styles.log} ${styles[log.level]}`}>
@@ -29,6 +31,15 @@ const Application = () => {
 		refetch,
 	} = useGetAppLogsQuery({ appId: id, page, count: 20 });
 
+	const {
+		data: appData,
+		error: appError,
+		isLoading: appIsLoading,
+		refetch: appRefetch,
+	} = useGetAppQuery(id);
+
+	const [generateToken, tokenResult] = useGenerareAppTokenMutation();
+
 	const nextPage = () => {
 		setPage(page + 1);
 	};
@@ -36,6 +47,11 @@ const Application = () => {
 	const prevPage = () => {
 		if (page == 1) return;
 		setPage(page - 1);
+	};
+
+	const generateAppToken = async () => {
+		await generateToken(id);
+		appRefetch();
 	};
 
 	return (
@@ -47,6 +63,17 @@ const Application = () => {
 			) : logs ? (
 				<>
 					<div style={{ margin: '10px 0' }}>
+						<h3>{appData?.data.title}</h3>
+						<p>
+							token:{' '}
+							{appData?.data.token || (
+								<button onClick={generateAppToken}>
+									Generate/Regenerate Token
+								</button>
+							)}
+						</p>
+						{tokenResult.isLoading && <p>Generating token...</p>}
+
 						<p>Page: {page}</p>
 						<button onClick={prevPage}>Previous Page</button>
 						<button onClick={nextPage}>Next Page</button>

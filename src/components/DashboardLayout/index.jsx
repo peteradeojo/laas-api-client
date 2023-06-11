@@ -12,6 +12,13 @@ const DashBoardLayout = () => {
 		isLoading: appsLoading,
 	} = useGetAppsQuery();
 
+	const navigate = useNavigate();
+
+	const logout = () => {
+		localStorage.removeItem('authToken');
+		navigate('/login');
+	};
+
 	return (
 		<>
 			<div className={styles.nav}>
@@ -31,11 +38,14 @@ const DashBoardLayout = () => {
 					<>Loading...</>
 				) : appsData ? (
 					<>
+						<Link to={'/dashboard/apps'}>Apps</Link>
 						{appsData.data.map((app) => (
 							<div key={app._id}>
 								<Link to={`/dashboard/apps/${app._id}`}>{app.title}</Link>
 							</div>
 						))}
+
+						<button onClick={logout}>Log Out</button>
 					</>
 				) : (
 					<>No data o</>

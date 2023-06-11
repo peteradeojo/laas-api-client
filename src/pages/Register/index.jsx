@@ -2,6 +2,7 @@ import authStyle from '../Login/styles.module.scss';
 
 import { useState } from 'react';
 import { useSignupMutation } from '../../services/api';
+import { useNavigate } from 'react-router-dom';
 
 const Register = () => {
 	const [name, setName] = useState('');
@@ -9,10 +10,15 @@ const Register = () => {
 	const [password, setPassword] = useState('');
 	const [password_confirmation, setPasswordConfirmation] = useState('');
 	const [signup, { isLoading, isSuccess }] = useSignupMutation();
+	const navigate = useNavigate();
 
 	const submitSignupForm = async (e) => {
 		e.preventDefault();
-    const fullfilled = await signup({name, email, password, password_confirmation}).unwrap();
+		const {
+			data: { token, user },
+		} = await signup({ name, email, password, password_confirmation }).unwrap();
+		localStorage.setItem('authToken', token);
+		navigate('/dashboard');
 	};
 
 	return (

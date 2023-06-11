@@ -32,12 +32,12 @@ export const laasApi = createApi({
 		}),
 
 		getUser: builder.query({
-			query: (token) => ({
+			query: () => ({
 				url: 'auth',
 				method: 'GET',
 				headers: {
 					...headers,
-					Authorization: `Bearer ${token}`,
+					Authorization: `Bearer ${getAuthToken()}`,
 				},
 			}),
 		}),

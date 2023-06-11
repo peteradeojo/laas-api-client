@@ -29,7 +29,7 @@ const DashBoardLayout = () => {
 					</p>
 				)}
 				<h1>
-					<Link to="/dashboard">{data?.data.user.name}</Link>
+					<Link to="/dashboard/apps">LAAS</Link>
 				</h1>
 
 				{appsError ? (
@@ -38,7 +38,9 @@ const DashBoardLayout = () => {
 					<>Loading...</>
 				) : appsData ? (
 					<>
-						<Link to={'/dashboard/apps'}>Apps</Link>
+						{/* <Link to={'/dashboard/apps'}>Apps</Link> */}
+						<p>Name: {data?.data.user.name}</p>
+						<p>Your Apps</p>
 						{appsData.data.map((app) => (
 							<div key={app._id}>
 								<Link to={`/dashboard/apps/${app._id}`}>{app.title}</Link>

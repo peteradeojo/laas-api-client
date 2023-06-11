@@ -19,7 +19,19 @@ const Log = ({ log, refetchLogs, empty, appToken }) => {
 					You haven't stored any logs here yet. Copy your token to start sending
 					logs: {appToken}
 				</p>
-				{/* <p>{log.createdAt}</p> */}
+				<br />
+				<br />
+				<pre>
+					curl
+					<br />
+					-X POST
+					<br />
+					https://laas-api-nest.onrender.com/logs
+					<br />
+					--json
+					<br />
+					{'{"level": "info", "text": "Hello World"}'}
+				</pre>
 			</div>
 		);
 	}

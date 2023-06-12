@@ -8,7 +8,10 @@ import {
 } from '../../services/api';
 
 import styles from './style.module.scss';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
+import io from 'socket.io-client';
+
+const socket = io(__APP_ENV__.API_URL);
 
 const Log = ({ log, refetchLogs, empty, appToken }) => {
 	if (empty) {
@@ -65,10 +68,49 @@ const Log = ({ log, refetchLogs, empty, appToken }) => {
 	);
 };
 
+const LogList = ({ logs }) => {
+	return logs.map((log) => <Log log={log} key={log._id}></Log>);
+};
+
+const PageSwitcher = ({ appData, logs, setPage, page }) => {
+	const nextPage = () => {
+		setPage(page + 1);
+	};
+
+	const prevPage = () => {
+		if (page == 1) return;
+		setPage(page - 1);
+	};
+	return (
+		<div>
+			<p>Page: {page}</p>
+			<button onClick={prevPage}>Previous</button>
+			<button onClick={nextPage}>Next</button>
+		</div>
+	);
+};
+
 const Application = () => {
 	const [page, setPage] = useState(1);
+	const [additionalLogs, setAdditionalLogs] = useState([]);
+
+	useEffect(() => {
+		const handleLogsMessage = (message) => {
+			console.log(message);
+			// const newComponent = <Log log={message} />;
+			setAdditionalLogs((prev) => [...prev, message]);
+		};
+		socket.on('log', handleLogsMessage);
+
+		return () => {
+			socket.off('log', handleLogsMessage);
+		};
+	}, []);
 
 	const { id } = useParams();
+
+	socket.emit('join', id);
+
 	const {
 		data: logs,
 		error,
@@ -86,15 +128,6 @@ const Application = () => {
 	const [generateToken, tokenResult] = useGenerareAppTokenMutation();
 	const [clearLogs, clearResult] = useClearLogsMutation();
 
-	const nextPage = () => {
-		setPage(page + 1);
-	};
-
-	const prevPage = () => {
-		if (page == 1) return;
-		setPage(page - 1);
-	};
-
 	const generateAppToken = async () => {
 		await generateToken(id);
 		appRefetch();
@@ -102,66 +135,47 @@ const Application = () => {
 
 	return (
 		<>
-			{error ? (
-				<p>An error occurred: {error.message}</p>
-			) : isLoading ? (
-				<>Loading...</>
-			) : logs ? (
-				<>
-					<div style={{ margin: '10px 0' }}>
-						<h3>{appData?.data.title}</h3>
-						<p>
-							{/* token:{' '}
-							{appData?.data.token || (
-								<button onClick={generateAppToken}>
-									Generate/Regenerate Token
-								</button>
-							)} */}
+			<div className="container">
+				<p>
+					Viewing logs for: <b>{appData?.data.title}</b>
+				</p>
+
+				<div className="mt-3">
+					{error ? (
+						<>{error.message}</>
+					) : isLoading ? (
+						<>Still loading</>
+					) : logs ? (
+						<>
 							<button
-								onClick={async () => {
-									console.log(id);
-									await clearLogs(id);
-									refetch(id);
+								onClick={() => {
+									clearLogs(appData?.data._id);
+									refetch();
 								}}
 							>
 								Clear Logs
 							</button>
-						</p>
-						{tokenResult.isLoading && <p>Generating token...</p>}
-						{!appError && appData && (
-							<>
-								{(
-									<p
-										onClick={(e) => {
-											navigator.clipboard.writeText(appData.data.token);
-											alert('Copied to clipboard');
-										}}
-									>
-										{appData.data.token}
-									</p>
-								) || <button onClick={generateAppToken}>Generate Token</button>}
-							</>
-						)}
-
-						<p>Page: {page}</p>
-						<p>Total: {logs.total}</p>
-						<button onClick={prevPage}>Previous Page</button>
-						<button onClick={nextPage}>Next Page</button>
-					</div>
-					{logs.data.length >= 1 &&
-						logs.data.map((log) => (
-							<Log
-								log={log}
-								key={log._id}
-								refetchLogs={() => {
-									refetch(id);
-								}}
+							<PageSwitcher
+								appData={appData?.data}
+								logs={logs}
+								// refetchLogs={refetch}
+								page={page}
+								setPage={setPage}
 							/>
-						))}
-
-					{logs.data.length < 1 && <Log empty appToken={appData?.data.token} />}
-				</>
-			) : null}
+							{logs.data.length > 0 ? (
+								<>
+									<LogList logs={logs.data} />
+									<LogList logs={additionalLogs} />
+								</>
+							) : (
+								<Log empty appToken={appData?.data.token} />
+							)}
+						</>
+					) : (
+						<Log empty appToken={appData?.data.token} />
+					)}
+				</div>
+			</div>
 		</>
 	);
 };

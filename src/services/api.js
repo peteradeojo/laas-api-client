@@ -5,7 +5,6 @@ const headers = {
 	Accept: 'application/json',
 };
 
-// const baseUrl = 'https://laas-api-nest.onrender.com/'
 const baseUrl = __APP_ENV__.API_URL;
 
 const getAuthToken = () => localStorage.getItem('authToken');

@@ -90,6 +90,8 @@ const PageSwitcher = ({ appData, logs, setPage, page }) => {
 	);
 };
 
+const AppTokenGenerator = ({onClick}) => <button onClick={onClick}>Generate App Token</button>
+
 const Application = () => {
 	const [page, setPage] = useState(1);
 	const [additionalLogs, setAdditionalLogs] = useState([]);
@@ -147,6 +149,12 @@ const Application = () => {
 						<>Still loading</>
 					) : logs ? (
 						<>
+							<div>
+								{!appData.data.token && <AppTokenGenerator onClick={() => {
+									generateAppToken();
+								}} /> }
+							</div>
+
 							<button
 								onClick={() => {
 									clearLogs(appData?.data._id);

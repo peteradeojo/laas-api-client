@@ -1,0 +1,130 @@
+$sidenavColor: #0c1d7e;
+
+.sidenavWrapper {
+  position: fixed;
+  height: 100vh;
+  min-width: 250px;
+  background-color: $sidenavColor;
+  color: #fff;
+
+  .footer {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    padding: 1em;
+    text-align: center;
+    color: #fff;
+    // font-size: 0.8em;
+    background-color: red;
+  }
+}
+
+@mixin navlink {
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  background-color: inherit;
+  padding: 12px 8px;
+  margin-bottom: 10px;
+  border-radius: 8px;
+  color: #fff;
+  text-decoration: none;
+  transition: background-color 0.2s ease-out,
+    letter-spacing 0.2s ease-in-out;
+
+  &:hover,
+  &:focus {
+    background-color: lighten($sidenavColor, 30%);
+    font-weight: 600;
+    letter-spacing: 1.5px;
+    outline-color: #ccc;
+    outline-width: 1px;
+
+    svg {
+      font-size: 1.35em;
+    }
+
+  }
+}
+
+.sidenav {
+  height: 100%;
+
+  .userPane {
+    text-decoration: none;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    border-radius: 16px;
+
+    img {
+      border-radius: 50%;
+      max-height: 100px;
+      max-width: 100px;
+      padding: 20px 0;
+    }
+
+    .nametag {
+      font-size: 1.3em;
+      color: #fff;
+      padding-bottom: 20px;
+    }
+
+    &:hover,
+    &:focus {
+      cursor: pointer;
+      border-radius: 16px;
+      background: linear-gradient(145deg, #3c46d0, #323baf);
+      box-shadow: 0px 0px 15px #323aad,
+        -0px -0px 15px #3e48d7;
+    }
+  }
+
+  .linksArea {
+    list-style: none;
+
+    li {
+      svg {
+        font-size: 1.2em;
+        margin: 0 15px 0 15px;
+      }
+    }
+
+    li a, li .navItem {
+      @include navlink;
+    }
+
+    li .dropdown {
+      .dropdownLabel {
+        @include navlink;
+      }
+
+      .dropdownList {
+        height: 0;
+        overflow: hidden;
+        padding-left: 20px;
+      }
+
+      &.expanded {
+        .dropdownList {
+          height: min-content;
+        }
+      }
+    }
+  }
+}
+
+@keyframes unroll {
+  0% {
+    height: 0;
+    overflow: visible;
+  }
+
+  100% {
+    // transform: rotate(90deg);
+    height: auto;
+    overflow: auto;
+  }
+}

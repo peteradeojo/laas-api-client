@@ -2,15 +2,12 @@ import styles from './style.module.scss';
 import { useGetUserQuery, useGetAppsQuery } from '../../services/api';
 import { useNavigate, Navigate, Outlet, Link } from 'react-router-dom';
 import { useState } from 'react';
+import Sidenav from '../Sidenav';
 
 const DashBoardLayout = () => {
 	const token = localStorage.getItem('authToken');
-	const { data, error, isLoading } = useGetUserQuery(token);
-	const {
-		data: appsData,
-		error: appsError,
-		isLoading: appsLoading,
-	} = useGetAppsQuery();
+	const userHook = useGetUserQuery(token);
+	const appsHook = useGetAppsQuery();
 
 	const navigate = useNavigate();
 
@@ -21,39 +18,10 @@ const DashBoardLayout = () => {
 
 	return (
 		<>
-			<div className={styles.nav}>
-				{error && (
-					<p>
-						Something went wrong: {error.message}
-						<Navigate to={'/login'} />
-					</p>
-				)}
-				<h1>
-					<Link to="/dashboard/apps">LAAS</Link>
-				</h1>
+			{!token && <Navigate to="/login" />}
+			<Sidenav appsHook={appsHook} userHook={userHook} />
 
-				{appsError ? (
-					<>Oops somehitng wen't wrong</>
-				) : isLoading ? (
-					<>Loading...</>
-				) : appsData ? (
-					<>
-						{/* <Link to={'/dashboard/apps'}>Apps</Link> */}
-						<p>Name: {data?.data.user.name}</p>
-						<p>Your Apps</p>
-						{appsData.data.map((app) => (
-							<div key={app._id}>
-								<Link to={`/dashboard/apps/${app._id}`}>{app.title}</Link>
-							</div>
-						))}
-
-						<button onClick={logout}>Log Out</button>
-					</>
-				) : (
-					<>No data o</>
-				)}
-			</div>
-			<div>
+			<div className="main">
 				<Outlet />
 			</div>
 		</>

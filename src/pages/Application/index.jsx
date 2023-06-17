@@ -10,6 +10,7 @@ import {
 import styles from './style.module.scss';
 import { useState, useEffect } from 'react';
 import io from 'socket.io-client';
+import ProgressLoader from '../../components/Loaders/ProgessLoader';
 
 const socket = io(__APP_ENV__.API_URL);
 
@@ -90,7 +91,9 @@ const PageSwitcher = ({ appData, logs, setPage, page }) => {
 	);
 };
 
-const AppTokenGenerator = ({onClick}) => <button onClick={onClick}>Generate App Token</button>
+const AppTokenGenerator = ({ onClick }) => (
+	<button onClick={onClick}>Generate App Token</button>
+);
 
 const Application = () => {
 	const [page, setPage] = useState(1);
@@ -137,11 +140,7 @@ const Application = () => {
 
 	return (
 		<>
-			<div className="container">
-				<p>
-					Viewing logs for: <b>{appData?.data.title}</b>
-				</p>
-
+			<div className="container" style={{ border: '1px solid red' }}>
 				<div className="mt-3">
 					{error ? (
 						<>{error.message}</>
@@ -150,9 +149,13 @@ const Application = () => {
 					) : logs ? (
 						<>
 							<div>
-								{!appData.data.token && <AppTokenGenerator onClick={() => {
-									generateAppToken();
-								}} /> }
+								{!appData?.data.token && (
+									<AppTokenGenerator
+										onClick={() => {
+											generateAppToken();
+										}}
+									/>
+								)}
 							</div>
 
 							<button
@@ -183,6 +186,7 @@ const Application = () => {
 						<Log empty appToken={appData?.data.token} />
 					)}
 				</div>
+				{isLoading ? <ProgressLoader /> : null}
 			</div>
 		</>
 	);

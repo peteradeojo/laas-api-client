@@ -1,0 +1,14 @@
+$primaryColor: #fff;
+$accentColor: lighten(teal, 20%);
+
+@mixin bgprimary {
+  background-color: $primaryColor;
+}
+
+@mixin bgaccent {
+  background-color: $accentColor;
+}
+
+.bg-primary {
+  @include bgaccent;
+}

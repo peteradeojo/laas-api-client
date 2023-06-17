@@ -1,8 +1,9 @@
 import HamsterLoader from '../../components/Loaders/Hamster';
 
-const Dashboard = () => {
+const Dashboard = ({ message }) => {
 	return (
 		<div>
+			{message ? (<>{message}</>): null}
 			<HamsterLoader />
 		</div>
 	);

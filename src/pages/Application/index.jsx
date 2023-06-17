@@ -3,7 +3,6 @@ import {
 	useGetAppQuery,
 	useGetAppLogsQuery,
 	useGenerareAppTokenMutation,
-	useDeleteLogMutation,
 	useClearLogsMutation,
 } from '../../services/api';
 
@@ -11,63 +10,10 @@ import styles from './style.module.scss';
 import { useState, useEffect } from 'react';
 import io from 'socket.io-client';
 import ProgressLoader from '../../components/Loaders/ProgessLoader';
+import AppHeader from '../../components/AppHeader';
+import Log from '../../components/Log';
 
 const socket = io(__APP_ENV__.API_URL);
-
-const Log = ({ log, refetchLogs, empty, appToken }) => {
-	if (empty) {
-		return (
-			<div className={`${styles.log} ${styles.empty}`}>
-				<p className={'h3'}>Empty</p>
-				<p>
-					You haven't stored any logs here yet. Copy your token to start sending
-					logs: {appToken}
-				</p>
-				<br />
-				<br />
-				<pre>
-					curl
-					<br />
-					-X POST
-					<br />
-					https://laas-api-nest.onrender.com/logs
-					<br />
-					--json
-					<br />
-					{'{"level": "info", "text": "Hello World"}'}
-				</pre>
-			</div>
-		);
-	}
-
-	const [deleteLog, deleteResult] = useDeleteLogMutation();
-
-	// console.log(refetchLogs);
-
-	const deleteLogHandler = async (id) => {
-		await deleteLog(id);
-		alert('Log deleted');
-		refetchLogs();
-	};
-
-	return (
-		<>
-			<div className={`${styles.log} ${styles[log.level]}`}>
-				<span
-					className={styles.close}
-					onClick={() => {
-						deleteLogHandler(log._id);
-					}}
-				>
-					&times;
-				</span>
-				<p className={'h3'}>{log.level}</p>
-				<p>{log.text}</p>
-				<p>{log.createdAt}</p>
-			</div>
-		</>
-	);
-};
 
 const LogList = ({ logs }) => {
 	return logs.map((log) => <Log log={log} key={log._id}></Log>);
@@ -99,11 +45,28 @@ const Application = () => {
 	const [page, setPage] = useState(1);
 	const [additionalLogs, setAdditionalLogs] = useState([]);
 
+	const { id } = useParams();
+
+	socket.emit('join', id);
+
+	const logsHook = useGetAppLogsQuery({ appId: id, page, count: 20 });
+
+	const appHook = useGetAppQuery(id);
+
+	const [generateToken, tokenResult] = useGenerareAppTokenMutation();
+	const [clearLogs, clearResult] = useClearLogsMutation();
+
+	const generateAppToken = async () => {
+		await generateToken(id);
+		appHook.refetch();
+	};
+
 	useEffect(() => {
 		const handleLogsMessage = (message) => {
 			console.log(message);
 			// const newComponent = <Log log={message} />;
-			setAdditionalLogs((prev) => [...prev, message]);
+			setAdditionalLogs((prev) => [ message, ...prev,]);
+			// logsHook.data?.data.push(message);
 		};
 		socket.on('log', handleLogsMessage);
 
@@ -112,82 +75,35 @@ const Application = () => {
 		};
 	}, []);
 
-	const { id } = useParams();
-
-	socket.emit('join', id);
-
-	const {
-		data: logs,
-		error,
-		isLoading,
-		refetch,
-	} = useGetAppLogsQuery({ appId: id, page, count: 20 });
-
-	const {
-		data: appData,
-		error: appError,
-		isLoading: appIsLoading,
-		refetch: appRefetch,
-	} = useGetAppQuery(id);
-
-	const [generateToken, tokenResult] = useGenerareAppTokenMutation();
-	const [clearLogs, clearResult] = useClearLogsMutation();
-
-	const generateAppToken = async () => {
-		await generateToken(id);
-		appRefetch();
+	const deleteAllLogs = async () => {
+		setAdditionalLogs([]);
+		await clearLogs(id);
+		logsHook.refetch();
 	};
 
 	return (
 		<>
-			<div className="container" style={{ border: '1px solid red' }}>
-				<div className="mt-3">
-					{error ? (
-						<>{error.message}</>
-					) : isLoading ? (
-						<>Still loading</>
-					) : logs ? (
-						<>
-							<div>
-								{!appData?.data.token && (
-									<AppTokenGenerator
-										onClick={() => {
-											generateAppToken();
-										}}
-									/>
-								)}
-							</div>
+			{logsHook.isFetching && <ProgressLoader />}
+			{(appHook.isLoading || appHook.isFetching) && <ProgressLoader />}
+			{(!appHook.isLoading || appHook.isSuccess) && (
+				<AppHeader app={appHook.data.data} />
+			)}
 
-							<button
-								onClick={() => {
-									clearLogs(appData?.data._id);
-									refetch();
-								}}
-							>
-								Clear Logs
-							</button>
-							<PageSwitcher
-								appData={appData?.data}
-								logs={logs}
-								// refetchLogs={refetch}
-								page={page}
-								setPage={setPage}
-							/>
-							{logs.data.length > 0 ? (
-								<>
-									<LogList logs={logs.data} />
-									<LogList logs={additionalLogs} />
-								</>
-							) : (
-								<Log empty appToken={appData?.data.token} />
-							)}
-						</>
-					) : (
-						<Log empty appToken={appData?.data.token} />
-					)}
-				</div>
-				{isLoading ? <ProgressLoader /> : null}
-			</div>
+			{(logsHook.isLoading || logsHook.isFetching) && <ProgressLoader />}
+			{logsHook.isSuccess &&
+				(!logsHook.isFetching && logsHook.data.data.length == 0 ? (
+					<Log
+						empty
+						appToken={appHook?.data?.data?.token}
+						generateAppToken={generateAppToken}
+					/>
+				) : (
+					<>
+						<></>
+						{<LogList logs={additionalLogs} />}
+						{<LogList logs={logsHook.data.data} />}
+					</>
+				))}
 		</>
 	);
 };

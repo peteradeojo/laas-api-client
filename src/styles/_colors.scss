@@ -1,5 +1,6 @@
 $primaryColor: #fff;
 $accentColor: lighten(teal, 20%);
+$sidenavColor: #0c1d7e;
 
 @mixin bgprimary {
   background-color: $primaryColor;

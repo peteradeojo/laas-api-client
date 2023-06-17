@@ -65,7 +65,7 @@ const Application = () => {
 		const handleLogsMessage = (message) => {
 			console.log(message);
 			// const newComponent = <Log log={message} />;
-			setAdditionalLogs((prev) => [ message, ...prev,]);
+			setAdditionalLogs((prev) => [message, ...prev]);
 			// logsHook.data?.data.push(message);
 		};
 		socket.on('log', handleLogsMessage);
@@ -104,6 +104,7 @@ const Application = () => {
 						{<LogList logs={logsHook.data.data} />}
 					</>
 				))}
+			<PageSwitcher page={page} setPage={setPage} />
 		</>
 	);
 };

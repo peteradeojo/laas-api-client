@@ -1,25 +1,5 @@
 $sidenavColor: #0c1d7e;
 
-.sidenavWrapper {
-  position: fixed;
-  height: 100vh;
-  min-width: 250px;
-  background-color: $sidenavColor;
-  color: #fff;
-
-  .footer {
-    position: absolute;
-    bottom: 0;
-    left: 0;
-    width: 100%;
-    padding: 1em;
-    text-align: center;
-    color: #fff;
-    // font-size: 0.8em;
-    background-color: red;
-  }
-}
-
 @mixin navlink {
   cursor: pointer;
   display: flex;
@@ -33,6 +13,10 @@ $sidenavColor: #0c1d7e;
   transition: background-color 0.2s ease-out,
     letter-spacing 0.2s ease-in-out;
 
+  svg {
+    margin: 0px 10px;
+  }
+
   &:hover,
   &:focus {
     background-color: lighten($sidenavColor, 30%);
@@ -44,7 +28,27 @@ $sidenavColor: #0c1d7e;
     svg {
       font-size: 1.35em;
     }
+  }
+}
 
+.sidenavWrapper {
+  position: fixed;
+  height: 100vmax;
+  min-width: 250px;
+  background-color: $sidenavColor;
+  color: #fff;
+  z-index: 100;
+
+  .footer {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    padding: 1em;
+    text-align: center;
+    color: #fff;
+    // font-size: 0.8em;
+    background-color: red;
   }
 }
 
@@ -81,39 +85,6 @@ $sidenavColor: #0c1d7e;
         -0px -0px 15px #3e48d7;
     }
   }
-
-  .linksArea {
-    list-style: none;
-
-    li {
-      svg {
-        font-size: 1.2em;
-        margin: 0 15px 0 15px;
-      }
-    }
-
-    li a, li .navItem {
-      @include navlink;
-    }
-
-    li .dropdown {
-      .dropdownLabel {
-        @include navlink;
-      }
-
-      .dropdownList {
-        height: 0;
-        overflow: hidden;
-        padding-left: 20px;
-      }
-
-      &.expanded {
-        .dropdownList {
-          height: min-content;
-        }
-      }
-    }
-  }
 }
 
 @keyframes unroll {
@@ -126,5 +97,15 @@ $sidenavColor: #0c1d7e;
     // transform: rotate(90deg);
     height: auto;
     overflow: auto;
+  }
+}
+
+.linksArea {
+  list-style: none;
+
+  li {
+    a {
+      @include navlink;
+    }
   }
 }

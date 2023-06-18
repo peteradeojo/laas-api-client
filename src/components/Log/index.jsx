@@ -1,6 +1,6 @@
 import styles from './style.module.scss';
 
-import { useDeleteLogMutation } from "../../services/api";
+import { useDeleteLogMutation } from '../../services/api';
 
 const Log = ({ log, refetchLogs, empty, appToken, generateAppToken }) => {
 	if (empty) {
@@ -43,6 +43,8 @@ const Log = ({ log, refetchLogs, empty, appToken, generateAppToken }) => {
 					-X POST
 					<br />
 					https://laas-api-nest.onrender.com/logs
+					<br />
+					-H "APP_ID: {appToken}"
 					<br />
 					--json
 					<br />

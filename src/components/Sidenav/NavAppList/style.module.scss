@@ -1,0 +1,9 @@
+@import '../style.module.scss';
+
+.dropdownLabel {
+  @include navlink();
+}
+
+.dropdownList {
+  padding-left: 12px;
+}

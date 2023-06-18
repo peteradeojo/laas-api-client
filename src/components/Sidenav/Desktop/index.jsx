@@ -1,6 +1,12 @@
 import styles from '../style.module.scss';
 
-import { FaArrowDown, FaArrowRight, FaHome } from 'react-icons/fa';
+import {
+	FaArrowDown,
+	FaArrowRight,
+	FaCogs,
+	FaGithub,
+	FaHome,
+} from 'react-icons/fa';
 import { Link } from 'react-router-dom';
 
 import { buildAppLinks, buildUserEl } from '../util';
@@ -23,14 +29,27 @@ const DesktopSidenav = ({ userHook, appsHook, logout }) => {
 							</Link>
 						</li>
 						{appsHook.isSuccess ? (
-							<li>
-								<NavAppList label={'Apps'}>
-									{buildAppLinks(appsHook.data.data)}
-								</NavAppList>
-							</li>
+							<>
+								<li>
+									<NavAppList label={'Apps'}>
+										{buildAppLinks(appsHook.data.data)}
+									</NavAppList>
+								</li>
+								<li>
+									<a
+										href="https://github.com/peteradeojo/laas-api-client"
+										className="navItem"
+									>
+										<FaGithub /> View on Github
+									</a>
+								</li>
+							</>
 						) : appsHook.isLoading ? (
 							<li>
-								<p className={styles.navItem}>Loading apps</p>
+								<p className={styles.navItem}>
+									<FaCogs />
+									Loading your sidebar
+								</p>
 							</li>
 						) : null}
 					</ul>

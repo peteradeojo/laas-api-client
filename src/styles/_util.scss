@@ -8,6 +8,10 @@
   &.between {
     justify-content: space-between;
   }
+
+  &.evenly {
+    justify-content: space-evenly;
+  }
 }
 
 @for $i from 1 through 12 {
@@ -94,7 +98,7 @@
   border-radius: 4px;
   font-size: 1.1em;
   box-shadow: 0px 4px 10px rgba(255, 255, 255, 0.3);
-  
+
   &:active {
     box-shadow: none;
   }

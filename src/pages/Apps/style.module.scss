@@ -1,0 +1,25 @@
+@import '../../styles/colors';
+
+.appTable {
+  font-size: 0.9em;
+  width: 100%;
+  border-collapse: collapse;
+
+
+  tbody tr:nth-child(odd) {
+    background-color: $sidenavColor;
+    color: #fff;
+
+    a {
+      color: #fff;
+    }
+  }
+
+  td,
+  th {
+    border-right: 1px solid #ccc;
+    border-bottom: 1px solid #ccc;
+    text-align: left;
+    padding: 4px;
+  }
+}

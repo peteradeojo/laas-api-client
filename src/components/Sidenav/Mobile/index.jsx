@@ -11,6 +11,7 @@ import {
 	FaPlus,
 	FaList,
 	FaSignOutAlt,
+	FaGithub,
 } from 'react-icons/fa';
 import { useState } from 'react';
 
@@ -47,13 +48,21 @@ const MobileNav = ({ userHook, appsHook, logout }) => {
 								<FaList />
 							</button>
 						</div>
-						<div>
+						<div className="row evenly">
 							{userHook.isLoading || userHook.isFetching ? (
 								<h3>Loading</h3>
 							) : userHook.isError ? (
 								<>An error occured</>
 							) : userHook.isSuccess ? (
-								buildUserEl(userHook.data.data.user)
+								<>
+									<a
+										href="https://github.com/peteradeojo/laas-api-client"
+										target="_blank"
+									>
+										<FaGithub size={'2em'} color="white" className="mr-2" />
+									</a>
+									{buildUserEl(userHook.data.data.user)}
+								</>
 							) : null}
 						</div>
 					</div>

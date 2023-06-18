@@ -2,9 +2,11 @@ import { useState } from 'react';
 import { useGetAppsQuery, useCreateAppMutation } from '../../services/api';
 
 import authStyles from '../Login/styles.module.scss';
-import { useNavigate } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import AppHeader from '../../components/AppHeader';
 import ProgressLoader from '../../components/Loaders/ProgessLoader';
+
+import styles from './style.module.scss';
 
 const NewAppForm = ({ refetch }) => {
 	const [title, setTitle] = useState('');
@@ -54,9 +56,29 @@ const Apps = () => {
 			{isLoading && <ProgressLoader />}
 			{data && data.data.length >= 1 ? (
 				<>
-					{data.data.map((app) => (
-						<div key={app._id}>{app.title}</div>
-					))}
+					<table className={styles.appTable}>
+						<thead>
+							<tr>
+								<th>S/N</th>
+								<th>Name</th>
+								<th>Created</th>
+								<th>Status</th>
+							</tr>
+						</thead>
+
+						<tbody>
+							{data.data.map((app, index) => (
+								<tr>
+									<td>{index + 1}</td>
+									<td>
+										<Link to={`${app._id}`}>{app.title}</Link>
+									</td>
+									<td>{app.createdAt}</td>
+									<td>{app.token ? 'Active' : 'Inactive'}</td>
+								</tr>
+							))}
+						</tbody>
+					</table>
 				</>
 			) : (
 				<p>No apps. </p>

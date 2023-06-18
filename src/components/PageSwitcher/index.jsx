@@ -19,7 +19,6 @@ const PageSwitcher = ({
 	return (
 		<div className={styles.switcher}>
 			<p>
-				{console.log(logs)}
 				Page: {page} of {ofPage || 1}
 			</p>
 			<div className="row between py-1">

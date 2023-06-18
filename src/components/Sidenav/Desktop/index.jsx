@@ -6,6 +6,7 @@ import {
 	FaCogs,
 	FaGithub,
 	FaHome,
+	FaSignOutAlt,
 } from 'react-icons/fa';
 import { Link } from 'react-router-dom';
 
@@ -36,12 +37,14 @@ const DesktopSidenav = ({ userHook, appsHook, logout }) => {
 									</NavAppList>
 								</li>
 								<li>
-									<a
-										href="https://github.com/peteradeojo/laas-api-client"
-										className="navItem"
-									>
+									<a href="https://github.com/peteradeojo/laas-api-client">
 										<FaGithub /> View on Github
 									</a>
+								</li>
+								<li>
+									<span className={styles.navItem} onClick={() => logout()}>
+										<FaSignOutAlt color="red" /> Logout
+									</span>
 								</li>
 							</>
 						) : appsHook.isLoading ? (
@@ -55,9 +58,9 @@ const DesktopSidenav = ({ userHook, appsHook, logout }) => {
 					</ul>
 				</nav>
 
-				<footer className={styles.footer} onClick={() => logout()}>
+				{/* <footer className={styles.footer} onClick={() => logout()}>
 					<p>Log out</p>
-				</footer>
+				</footer> */}
 			</div>
 		</>
 	);

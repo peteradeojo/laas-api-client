@@ -68,7 +68,7 @@ const Apps = () => {
 
 						<tbody>
 							{data.data.map((app, index) => (
-								<tr>
+								<tr key={index}>
 									<td>{index + 1}</td>
 									<td>
 										<Link to={`${app._id}`}>{app.title}</Link>

@@ -104,7 +104,9 @@ $sidenavColor: #0c1d7e;
   list-style: none;
 
   li {
-    a {
+
+    a,
+    .navItem {
       @include navlink;
     }
   }

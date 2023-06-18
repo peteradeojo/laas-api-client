@@ -10,6 +10,7 @@ import {
 	FaHome,
 	FaPlus,
 	FaList,
+	FaSignOutAlt,
 } from 'react-icons/fa';
 import { useState } from 'react';
 
@@ -29,7 +30,7 @@ const buildUserEl = (user) => {
 	);
 };
 
-const MobileNav = ({ userHook, appsHook }) => {
+const MobileNav = ({ userHook, appsHook, logout }) => {
 	const [expanded, setExpanded] = useState(false);
 
 	return (
@@ -68,6 +69,12 @@ const MobileNav = ({ userHook, appsHook }) => {
 								<NavAppList label={'Apps'}>
 									{buildAppLinks(appsHook.data.data)}
 								</NavAppList>
+							</li>
+							<li>
+								<div className={`${styles.navItem}`} onClick={logout}>
+									<FaSignOutAlt color="red" />
+									Log Out
+								</div>
 							</li>
 						</ul>
 					)}

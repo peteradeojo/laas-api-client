@@ -1,10 +1,10 @@
-import HamsterLoader from '../../components/Loaders/Hamster';
+// import HamsterLoader from '../../components/Loaders/Hamster';
+// import ProgressLoader from '../../components/Loaders/ProgressLoader';
 
-const Dashboard = ({ message }) => {
+const Dashboard = () => {
 	return (
 		<div>
-			{message ? (<>{message}</>): null}
-			<HamsterLoader />
+			{/* <ProgressLoader /> */}
 		</div>
 	);
 };

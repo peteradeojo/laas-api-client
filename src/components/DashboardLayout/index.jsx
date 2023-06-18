@@ -1,5 +1,5 @@
 import { useGetUserQuery, useGetAppsQuery } from '../../services/api';
-import { useNavigate, Navigate, Outlet, Link } from 'react-router-dom';
+import { Navigate, Outlet } from 'react-router-dom';
 import Sidenav from '../Sidenav';
 
 const DashBoardLayout = () => {

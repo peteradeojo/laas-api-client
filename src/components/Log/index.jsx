@@ -2,7 +2,7 @@ import styles from './style.module.scss';
 
 import { useDeleteLogMutation } from '../../services/api';
 
-const Log = ({ log, refetchLogs, empty, appToken, generateAppToken }) => {
+const Log = ({ log, refetchLogs, empty, appToken, generateAppToken, deleteLog }) => {
 	if (empty) {
 		return (
 			<div className={`${styles.log} ${styles.empty}`}>
@@ -54,7 +54,7 @@ const Log = ({ log, refetchLogs, empty, appToken, generateAppToken }) => {
 		);
 	}
 
-	const [deleteLog, deleteResult] = useDeleteLogMutation();
+	// const [deleteLog, deleteResult] = useDeleteLogMutation();
 
 	const deleteLogHandler = async (id) => {
 		await deleteLog(id);

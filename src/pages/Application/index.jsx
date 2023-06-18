@@ -4,6 +4,7 @@ import {
 	useGetAppLogsQuery,
 	useGenerareAppTokenMutation,
 	useClearLogsMutation,
+	useDeleteLogMutation,
 } from '../../services/api';
 
 import styles from './style.module.scss';
@@ -12,29 +13,19 @@ import io from 'socket.io-client';
 import ProgressLoader from '../../components/Loaders/ProgessLoader';
 import AppHeader from '../../components/AppHeader';
 import Log from '../../components/Log';
+import PageSwitcher from '../../components/PageSwitcher';
 
 const socket = io(__APP_ENV__.API_URL);
 
-const LogList = ({ logs }) => {
-	return logs.map((log) => <Log log={log} key={log._id}></Log>);
-};
-
-const PageSwitcher = ({ appData, logs, setPage, page }) => {
-	const nextPage = () => {
-		setPage(page + 1);
-	};
-
-	const prevPage = () => {
-		if (page == 1) return;
-		setPage(page - 1);
-	};
-	return (
-		<div>
-			<p>Page: {page}</p>
-			<button onClick={prevPage}>Previous</button>
-			<button onClick={nextPage}>Next</button>
-		</div>
-	);
+const LogList = ({ logs, refetchLogs, logDeleter }) => {
+	return logs.map((log) => (
+		<Log
+			log={log}
+			key={log._id}
+			refetchLogs={refetchLogs}
+			deleteLog={logDeleter(log._id)}
+		/>
+	));
 };
 
 const AppTokenGenerator = ({ onClick }) => (
@@ -55,6 +46,7 @@ const Application = () => {
 
 	const [generateToken, tokenResult] = useGenerareAppTokenMutation();
 	const [clearLogs, clearResult] = useClearLogsMutation();
+	const [deleteLog, deleteLogResult] = useDeleteLogMutation();
 
 	const generateAppToken = async () => {
 		await generateToken(id);
@@ -63,10 +55,7 @@ const Application = () => {
 
 	useEffect(() => {
 		const handleLogsMessage = (message) => {
-			console.log(message);
-			// const newComponent = <Log log={message} />;
 			setAdditionalLogs((prev) => [message, ...prev]);
-			// logsHook.data?.data.push(message);
 		};
 		socket.on('log', handleLogsMessage);
 
@@ -81,30 +70,63 @@ const Application = () => {
 		logsHook.refetch();
 	};
 
+	const deleteLogHandler = (logId) => {
+		return async () => {
+			await deleteLog(logId);
+			setAdditionalLogs((prev) => prev.filter((log) => log._id != logId));
+		};
+	};
+
 	return (
 		<>
 			{logsHook.isFetching && <ProgressLoader />}
 			{(appHook.isLoading || appHook.isFetching) && <ProgressLoader />}
 			{(!appHook.isLoading || appHook.isSuccess) && (
-				<AppHeader app={appHook.data.data} />
+				<>
+					<AppHeader app={appHook.data.data} />
+				</>
 			)}
 
-			{(logsHook.isLoading || logsHook.isFetching) && <ProgressLoader />}
+			{(logsHook.isFetching || logsHook.isLoading) && <ProgressLoader />}
+			<>
+				<PageSwitcher
+					page={page}
+					setPage={setPage}
+					logs={{ ...logsHook.data, data: null }}
+				/>
+			</>
 			{logsHook.isSuccess &&
 				(!logsHook.isFetching && logsHook.data.data.length == 0 ? (
 					<Log
 						empty
 						appToken={appHook?.data?.data?.token}
 						generateAppToken={generateAppToken}
+						refetchLogs={logsHook.refetch}
 					/>
 				) : (
 					<>
-						<></>
-						{<LogList logs={additionalLogs} />}
-						{<LogList logs={logsHook.data.data} />}
+						<div
+							className="container bg-primary"
+							style={{ wordBreak: 'break-word' }}
+						>
+							{appHook?.data?.data?.token}
+						</div>
+						{
+							<LogList
+								logs={additionalLogs}
+								refetchLogs={logsHook.refetch}
+								logDeleter={deleteLogHandler}
+							/>
+						}
+						{
+							<LogList
+								logs={logsHook.data.data}
+								refetchLogs={logsHook.refetch}
+								logDeleter={deleteLogHandler}
+							/>
+						}
 					</>
 				))}
-			<PageSwitcher page={page} setPage={setPage} />
 		</>
 	);
 };

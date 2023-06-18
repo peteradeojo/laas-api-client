@@ -56,6 +56,26 @@
   .ml-#{$i} {
     margin-left: #{$i * 0.25}rem;
   }
+
+  .py-#{$i} {
+    padding-top: #{$i * 0.25}rem;
+    padding-bottom: #{$i * 0.25}rem;
+  }
+
+  .px-#{$i} {
+    padding-left: #{$i * 0.25}rem;
+    padding-right: #{$i * 0.25}rem;
+  }
+
+  .my-#{$i} {
+    margin-top: #{$i * 0.25}rem;
+    margin-bottom: #{$i * 0.25}rem;
+  }
+
+  .mx-#{$i} {
+    margin-left: #{$i * 0.25}rem;
+    margin-right: #{$i * 0.25}rem;
+  }
 }
 
 .rest {

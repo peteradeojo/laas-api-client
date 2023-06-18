@@ -15,17 +15,9 @@ export const buildUserEl = (data) => {
 };
 
 export const buildAppLinks = (apps) => {
-	// if (apps.length === 0) {
-	// 	return (
-	// 		<Link to={'apps/new'}>
-	// 			<FaPlus /> Create App
-	// 		</Link>
-	// 	);
-	// }
-
 	return (
 		<>
-			<Link to={'apps/new'}>
+			<Link to={'apps'}>
 				<FaPlus /> Create App
 			</Link>
 			{apps.map((app) => (

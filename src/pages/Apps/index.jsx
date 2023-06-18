@@ -3,6 +3,8 @@ import { useGetAppsQuery, useCreateAppMutation } from '../../services/api';
 
 import authStyles from '../Login/styles.module.scss';
 import { useNavigate } from 'react-router-dom';
+import AppHeader from '../../components/AppHeader';
+import ProgressLoader from '../../components/Loaders/ProgessLoader';
 
 const NewAppForm = ({ refetch }) => {
 	const [title, setTitle] = useState('');
@@ -17,7 +19,7 @@ const NewAppForm = ({ refetch }) => {
 	return (
 		<>
 			<form
-				className={authStyles.loginForm}
+				className={`mt-3 ${authStyles.loginForm}`}
 				onSubmit={(e) => {
 					e.preventDefault();
 					submitForm();
@@ -32,7 +34,9 @@ const NewAppForm = ({ refetch }) => {
 					}}
 				/>
 
-				<button type="submit">Submit</button>
+				<button className="btn" type="submit">
+					Submit
+				</button>
 			</form>
 		</>
 	);
@@ -43,10 +47,11 @@ const Apps = () => {
 	const { data, error, isLoading, refetch } = useGetAppsQuery();
 
 	return (
-		<>
-			<h1>Apps</h1>
+		<div className="container">
+			<AppHeader app={{ title: 'Apps' }} />
+
 			{error && <p>An error occured</p>}
-			{isLoading && <p>Loading...</p>}
+			{isLoading && <ProgressLoader />}
 			{data && data.data.length >= 1 ? (
 				<>
 					{data.data.map((app) => (
@@ -60,12 +65,13 @@ const Apps = () => {
 				onClick={() => {
 					setNewAppForm(!newAppForm);
 				}}
+				className="btn"
 			>
 				Create App
 			</button>
 
 			{newAppForm && <NewAppForm refetch={refetch} />}
-		</>
+		</div>
 	);
 };
 

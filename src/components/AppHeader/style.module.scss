@@ -1,4 +1,9 @@
 .appHeader {
   padding: 20px 8px;
-  background-color: red;
+  font-size: 2em;
+  
+  @media screen and (max-width: 768px) {
+    padding: 10px 8px;
+    font-size: 1.5em;
+  }
 }

@@ -21,7 +21,8 @@ const Sidenav = ({ userHook, appsHook }) => {
 
 	const logout = () => {
 		localStorage.removeItem('authToken');
-		navigate('/login');
+		window.location.reload();
+		// navigate('/login');
 	};
 
 	return !isMobile ? (

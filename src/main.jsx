@@ -32,7 +32,6 @@ const routes = createRoutesFromElements(
 		<Route path="dashboard" element={<DashBoardLayout />}>
 			<Route index element={<Dashboard />} />
 			<Route path="apps" element={<Apps />} />
-			<Route path='apps/new' />
 			<Route path="apps/:id" element={<Application />} />
 		</Route>
 	</>

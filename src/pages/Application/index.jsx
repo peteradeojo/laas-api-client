@@ -96,7 +96,9 @@ const Application = () => {
 				/>
 			</>
 			{logsHook.isSuccess &&
-				(!logsHook.isFetching && logsHook.data.data.length == 0 ? (
+				(!logsHook.isFetching &&
+				!logsHook.isLoading &&
+				logsHook.data.data.length == 0 ? (
 					<Log
 						empty
 						appToken={appHook?.data?.data?.token}

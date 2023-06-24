@@ -64,11 +64,11 @@ const Application = () => {
 		};
 	}, []);
 
-	const deleteAllLogs = async () => {
-		setAdditionalLogs([]);
-		await clearLogs(id);
-		logsHook.refetch();
-	};
+	// const deleteAllLogs = async () => {
+	// 	setAdditionalLogs([]);
+	// 	await clearLogs(id);
+	// 	logsHook.refetch();
+	// };
 
 	const deleteLogHandler = (logId) => {
 		return async () => {
@@ -81,10 +81,15 @@ const Application = () => {
 		<>
 			{logsHook.isFetching && <ProgressLoader />}
 			{(appHook.isLoading || appHook.isFetching) && <ProgressLoader />}
-			{(!appHook.isLoading || appHook.isSuccess) && (
+			{!appHook.isLoading || appHook.isSuccess ? (
 				<>
-					<AppHeader app={appHook.data.data} />
+					<AppHeader
+						app={appHook.data.data}
+						refetchAppLogs={logsHook.refetch}
+					/>
 				</>
+			) : (
+				<></>
 			)}
 
 			{(logsHook.isFetching || logsHook.isLoading) && <ProgressLoader />}

@@ -64,9 +64,11 @@ export const laasApi = createApi({
 		}),
 
 		getAppLogs: builder.query({
-			query: ({ appId, page = 1, count = 20 }) => {
+			query: ({ appId, page = 1, count = 20, filter }) => {
 				return {
-					url: `logs/${appId}?page=${page}&count=${count}`,
+					url: `logs/${appId}?page=${page}&count=${count}&level=${
+						filter?.level || ''
+					}&search=${filter?.search || ''}`,
 					method: 'GET',
 					headers: {
 						...headers,

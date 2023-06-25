@@ -1,10 +1,13 @@
+import LogFilterPanel from '../LogFilterPanel';
 import styles from './style.module.scss';
 
 const PageSwitcher = ({
-	appData,
+	appId,
 	logs = { count: 0, total: 0 },
 	setPage,
 	page,
+	logsHook,
+	setLogsFilter,
 }) => {
 	const nextPage = () => {
 		setPage(page + 1);
@@ -17,19 +20,29 @@ const PageSwitcher = ({
 		setPage(page - 1);
 	};
 	return (
-		<div className={styles.switcher}>
-			<p>
-				Page: {page} of {ofPage || 1}
-			</p>
-			<div className="row between py-1">
-				<button className="btn mr-5" onClick={prevPage}>
-					Previous
-				</button>
-				<button className="btn" onClick={nextPage}>
-					Next
-				</button>
+		<>
+			<div className={styles.switcher}>
+				<p>
+					Page: {page} of {ofPage || 1}
+				</p>
+				<div className="row between py-1">
+					<button className="btn mr-5" onClick={prevPage}>
+						Previous
+					</button>
+					<button className="btn" onClick={nextPage}>
+						Next
+					</button>
+				</div>
 			</div>
-		</div>
+
+			{appId && (
+				<LogFilterPanel
+					appId={appId}
+					logsHook={logsHook}
+					setLogsFilter={setLogsFilter}
+				/>
+			)}
+		</>
 	);
 };
 

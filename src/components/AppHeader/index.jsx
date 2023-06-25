@@ -1,6 +1,7 @@
 import styles from './style.module.scss';
 import { useClearLogsMutation } from '../../services/api';
 import ProgressLoader from '../Loaders/ProgessLoader';
+import LogFilterPanel from '../LogFilterPanel';
 
 const AppHeader = ({ app, refetchAppLogs }) => {
 	const [clearLogs, clearResult] = useClearLogsMutation();

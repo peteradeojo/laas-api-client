@@ -5,10 +5,12 @@ import Sidenav from '../Sidenav';
 const DashBoardLayout = () => {
 	const token = localStorage.getItem('authToken');
 	const userHook = useGetUserQuery(token);
-	const appsHook = useGetAppsQuery();
+	const appsHook = useGetAppsQuery(null, { refetchOnMountOrArgChange: false });
 
 	return (
 		<>
+			{appsHook.isError && <Navigate to="/login" />}
+		
 			{!token && <Navigate to="/login" />}
 			<Sidenav appsHook={appsHook} userHook={userHook} />
 

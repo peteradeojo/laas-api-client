@@ -31,7 +31,6 @@ const AppHeader = ({ app, refetchAppLogs }) => {
 			}).unwrap();
 
 			if (!response.statusCode) {
-				console.log(response.data.title);
 				setDirtyTitle(false);
 				setAppTitle(response.data.title);
 			}

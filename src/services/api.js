@@ -59,6 +59,7 @@ export const laasApi = createApi({
 				url: 'apps/' + id,
 				method: 'GET',
 			}),
+			providesTags: ['App'],
 		}),
 
 		getAppLogs: builder.query({
@@ -110,7 +111,7 @@ export const laasApi = createApi({
 				method: 'PATCH',
 				body: data.body,
 			}),
-			invalidatesTags: (result, error, arg) => ['Apps'],
+			invalidatesTags: (result, error, arg) => ['Apps', 'App'],
 		}),
 	}),
 });

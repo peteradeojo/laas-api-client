@@ -74,6 +74,7 @@ const Log = ({ log, refetchLogs, empty, appToken, generateAppToken, deleteLog })
 					&times;
 				</span>
 				<p className={'h3'}>{log.level}</p>
+				<span>{log.ip}</span>
 				<p>{log.text}</p>
 				<p>{log.createdAt}</p>
 			</div>

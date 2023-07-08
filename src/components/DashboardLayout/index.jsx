@@ -14,7 +14,7 @@ const DashBoardLayout = () => {
 			{!token && <Navigate to="/login" />}
 			<Sidenav appsHook={appsHook} userHook={userHook} />
 
-			<div className="main">
+			<div className="main withSidebar">
 				<Outlet />
 			</div>
 		</>

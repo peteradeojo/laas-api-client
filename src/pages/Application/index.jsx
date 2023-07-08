@@ -93,6 +93,7 @@ const Application = () => {
 					<AppHeader
 						app={appHook.data.data}
 						refetchAppLogs={logsHook.refetch}
+						key={appHook.data.data._id}
 					/>
 				</>
 			) : (

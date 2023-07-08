@@ -13,7 +13,10 @@
 body {
   font-size: 14px;
   font-family: 'Quicksand', Arial, Helvetica, sans-serif;
-  @include bgprimary;
+}
+
+a {
+  color: inherit;
 }
 
 .container {
@@ -26,10 +29,12 @@ body {
 }
 
 .main {
-  margin-left: 250px;
+  &.withSidebar {
+    margin-left: 250px;
 
-  @media only screen and (max-width: 768px) {
-    margin-left: 0;
+    @media only screen and (max-width: 768px) {
+      margin-left: 0;
+    }
   }
 }
 

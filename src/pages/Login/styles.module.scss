@@ -1,6 +1,5 @@
 .container {
   padding: 1em;
-  // background-color: rgb(105, 220, 205);
 
   @media screen and (min-width: 768px) {
     border-radius: 8px;
@@ -13,7 +12,7 @@
   flex-direction: column;
   background-color: #ccc;
   
-  @media screen and (max-width: 768px) {
+  @media screen and (max-width: 425px) {
     height: 100vmin;
     align-items: center;
     justify-content: center;

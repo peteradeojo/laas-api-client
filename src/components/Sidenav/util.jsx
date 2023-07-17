@@ -21,7 +21,7 @@ export const buildAppLinks = (apps) => {
 				<FaPlus /> Create App
 			</Link>
 			{apps.map((app) => (
-				<Link key={app._id} to={`apps/${app._id}`}>
+				<Link key={app.id} to={`apps/${app.id}`}>
 					{app.title}
 				</Link>
 			))}

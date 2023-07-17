@@ -71,7 +71,7 @@ const Apps = () => {
 								<tr key={index}>
 									<td>{index + 1}</td>
 									<td>
-										<Link to={`${app._id}`}>{app.title}</Link>
+										<Link to={`${app.id}`}>{app.title}</Link>
 									</td>
 									<td>{app.createdAt}</td>
 									<td>{app.token ? 'Active' : 'Inactive'}</td>

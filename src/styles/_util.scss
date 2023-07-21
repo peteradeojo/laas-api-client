@@ -102,10 +102,10 @@
   &:active {
     box-shadow: none;
   }
-  &-sm {
-    padding: 4px 6px;
-    font-size: 0.9em;
-  }
+}
+
+.btn-sm {
+  font-size: 0.6em;
 }
 
 .circle {

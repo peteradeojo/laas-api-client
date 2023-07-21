@@ -45,10 +45,10 @@ const AppHeader = ({ app, refetchAppLogs }) => {
 				<div>
 					{!editingTitle ? (
 						<div className="row">
-							<h1 onClick={(e) => setEditingTitle(true)}>
+							<h3 onClick={(e) => setEditingTitle(true)}>
 								{!dirtyTitle ? app.title : appTitle}
 								{/* {appTitle} */}
-							</h1>
+							</h3>
 							{dirtyTitle && (
 								<button className="btn btn-sm ml-3" onClick={saveApp}>
 									Save

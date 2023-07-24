@@ -40,7 +40,6 @@ const Application = () => {
 
   const { id } = useParams();
 
-  console.log("Joining room", id);
   socket.emit("join", id);
 
   const logsHook = useGetAppLogsQuery({

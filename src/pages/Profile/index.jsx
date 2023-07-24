@@ -69,6 +69,8 @@ const Profile = () => {
           </div>
         </form>
 
+        {!(data.user.twoFactorEnabled) && <p>Enable 2FA</p>}
+
         {updateResult.isLoading && <ProgressLoader />}
       </div>
     </>

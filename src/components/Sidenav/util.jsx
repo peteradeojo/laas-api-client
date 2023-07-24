@@ -8,9 +8,7 @@ export const buildUserEl = (data) => {
 
   return (
     <>
-      <Link to={'/profile'}>
         <img src={`https://ui-avatars.com/api?name=${user.name}`} alt="" />
-      </Link>
       <p className={styles.nametag}>{user.name}</p>
     </>
   );

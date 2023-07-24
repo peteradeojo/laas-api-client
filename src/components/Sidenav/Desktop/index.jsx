@@ -18,7 +18,7 @@ const DesktopSidenav = ({ userHook, appsHook, logout }) => {
     <>
       <div className={"p-5 " + styles.sidenavWrapper}>
         <nav className={styles.sidenav}>
-          <Link to={"/dashboard"} className={styles.userPane}>
+          <Link to={"/profile"} className={styles.userPane}>
             {userHook.isSuccess ? buildUserEl(userHook.data.data) : null}
           </Link>
 

@@ -123,6 +123,26 @@ export const laasApi = createApi({
       }),
       invalidatesTags: (result, error, arg) => ["User"],
     }),
+
+    setup2Fa: builder.mutation({
+      query: (data) => ({
+        url: `auth/2fa/setup`,
+      }),
+    }),
+    enable2Fa: builder.mutation({
+      query: (data) => ({
+        url: `auth/2fa/enable`,
+        method: "POST",
+        body: data,
+      }),
+    }),
+    verify2Fa: builder.mutation({
+      query: (data) => ({
+        url: `auth/2fa/verify`,
+        method: "POST",
+        body: data,
+      }),
+    }),
   }),
 });
 
@@ -139,4 +159,7 @@ export const {
   useClearLogsMutation,
   useUpdateAppMutation,
   useUpdateProfileMutation,
+  useSetup2FaMutation,
+  useEnable2FaMutation,
+  useVerify2FaMutation,
 } = laasApi;

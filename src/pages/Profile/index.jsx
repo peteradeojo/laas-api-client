@@ -1,11 +1,22 @@
 import { useState } from "react";
 import ProgressLoader from "../../components/Loaders/ProgessLoader";
-import { useGetUserQuery, useUpdateProfileMutation } from "../../services/api";
+import TwoFaScreen from "../../components/2FA";
+import {
+  useGetUserQuery,
+  useUpdateProfileMutation,
+  useSetup2FaMutation,
+} from "../../services/api";
+
+// const
 
 const Profile = () => {
   let { data, isLoading, isError, error } = useGetUserQuery();
   const [update, updateResult] = useUpdateProfileMutation();
   const [name, setName] = useState("");
+
+  const [twoFa, setTwoFa] = useState({ qrCode: null, secret: null });
+
+  const [setup2Fa, setup2FaResult] = useSetup2FaMutation();
 
   if (isLoading) {
     return <>Loading...</>;
@@ -30,6 +41,17 @@ const Profile = () => {
       return;
     } catch (err) {
       console.log(err);
+    }
+  };
+
+  const enableTwoFactor = async () => {
+    try {
+      const result = await setup2Fa().unwrap();
+      console.log(result);
+      setTwoFa({ ...result.data });
+    } catch (err) {
+      console.log(err);
+      alert("An error occurred");
     }
   };
 
@@ -69,7 +91,19 @@ const Profile = () => {
           </div>
         </form>
 
-        {!(data.user.twoFactorEnabled) && <p>Enable 2FA</p>}
+        {!data.user.twoFactorEnabled && (
+          <>
+            <div className="mt-5">
+              <button onClick={enableTwoFactor}>
+                Enable Two Factor Authentication
+              </button>
+
+              {setup2FaResult.isLoading && <ProgressLoader />}
+              {setup2FaResult.isError && <>{setup2FaResult.error.message}</>}
+              {setup2FaResult.isSuccess && <TwoFaScreen data={twoFa} />}
+            </div>
+          </>
+        )}
 
         {updateResult.isLoading && <ProgressLoader />}
       </div>

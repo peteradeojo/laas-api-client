@@ -1,11 +1,12 @@
 import { useState } from "react";
-import { Navigate } from "react-router-dom";
+import { Navigate, useNavigate } from "react-router-dom";
 import { useEnable2FaMutation } from "../../services/api";
 import ProgressLoader from "../Loaders/ProgessLoader";
 
 const TwoFaScreen = ({ data }) => {
   const [token, setToken] = useState("");
   const [enable2Fa, enable2FaResult] = useEnable2FaMutation();
+  const navigate = useNavigate();
 
   const submitForm = async (e) => {
     e.preventDefault();
@@ -19,7 +20,7 @@ const TwoFaScreen = ({ data }) => {
       if (body.token && body.token.length > 0) {
         await enable2Fa(body).unwrap();
       }
-      return;
+      return navigate("/profile");
     } catch (err) {
       console.log(err);
     }

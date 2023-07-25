@@ -1,4 +1,6 @@
 import { useState } from "react";
+import { useNavigate } from "react-router-dom";
+
 import ProgressLoader from "../../components/Loaders/ProgessLoader";
 import TwoFaScreen from "../../components/2FA";
 import {
@@ -13,6 +15,7 @@ const Profile = () => {
   let { data, isLoading, isError, error } = useGetUserQuery();
   const [update, updateResult] = useUpdateProfileMutation();
   const [name, setName] = useState("");
+  const navigate = useNavigate();
 
   const [twoFa, setTwoFa] = useState({ qrCode: null, secret: null });
 
@@ -38,7 +41,7 @@ const Profile = () => {
       if (body.name && body.name.length > 0) {
         const result = await update(body).unwrap();
       }
-      return;
+      return navigate("/profile");
     } catch (err) {
       console.log(err);
     }

@@ -40,7 +40,7 @@ const Application = () => {
 
   const { id } = useParams();
 
-  socket.emit("join", id);
+  socket.emit("connect-log-stream", id);
 
   const logsHook = useGetAppLogsQuery({
     appId: id,

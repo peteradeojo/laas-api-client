@@ -5,6 +5,7 @@ import { Link, useNavigate } from "react-router-dom";
 
 import { useLoginMutation, useVerify2FaMutation } from "../../services/api";
 import ProgressLoader from "../../components/Loaders/ProgessLoader";
+import { FaGithub } from "react-icons/fa";
 
 const Login = () => {
   const [twoFaScreen, setTwoFaScreen] = useState(false);
@@ -24,7 +25,6 @@ const Login = () => {
       email,
     };
 
-    // console.log(body);
     try {
       const {
         data: { token },
@@ -50,6 +50,11 @@ const Login = () => {
         navigate("/dashboard");
       }
     } catch (err) {}
+  };
+
+  const loginWithGithub = async (e) => {
+    // githubLogin();
+    window.location.href = __APP_ENV__.API_URL + "/auth/github";
   };
 
   return (
@@ -82,6 +87,12 @@ const Login = () => {
                 Login
               </button>
             </form>
+
+            <div>
+              <button onClick={loginWithGithub} className={styles.githubLogin}>
+                <FaGithub /> Login with Github
+              </button>
+            </div>
 
             <p className="center">
               Don't have an account? <Link to="/signup">Sign Up</Link>

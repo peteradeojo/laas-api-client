@@ -18,6 +18,7 @@ import Dashboard from "./pages/Dashboard";
 import Application from "./pages/Application";
 import Apps from "./pages/Apps";
 import Profile from "./pages/Profile";
+import LoginWithGithub from "./pages/LoginWithGithub";
 
 import { store } from "./store";
 
@@ -27,6 +28,7 @@ const routes = createRoutesFromElements(
 
     <Route element={<AuthLayout />}>
       <Route path="/login" element={<Login />} />
+      <Route path="/login/github/callback" element={<LoginWithGithub />} />
       <Route path="/signup" element={<Register />} />
     </Route>
 

@@ -77,7 +77,7 @@ export const laasApi = createApi({
 
     createApp: builder.mutation({
       query: (body) => ({
-        url: "apps/new",
+        url: "apps/",
         method: "POST",
         body,
       }),

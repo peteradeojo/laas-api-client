@@ -2,22 +2,13 @@ import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 
 const baseUrl = __APP_ENV__.API_URL;
 
-const getAuthToken = () => localStorage.getItem("authToken");
+import { prepareHeaders } from "./helpers";
 
 export const laasApi = createApi({
   reducerPath: "api",
   baseQuery: fetchBaseQuery({
     baseUrl,
-    prepareHeaders: (headers) => {
-      const token = getAuthToken();
-      if (token) {
-        headers.set("Authorization", `Bearer ${token}`);
-      }
-
-      headers.set("Content-type", "application/json");
-      headers.set("Accept", "application/json");
-      return headers;
-    },
+    prepareHeaders: prepareHeaders,
   }),
   refetchOnReconnect: true,
   keepUnusedDataFor: 2 * 60,

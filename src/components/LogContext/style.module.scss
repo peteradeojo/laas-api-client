@@ -1,0 +1,8 @@
+.context {
+  cursor: pointer;
+  margin-top: 5px;
+  &.open {
+    background-color: #ccc;
+    padding: 6px;
+  }
+}

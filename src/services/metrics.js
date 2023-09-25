@@ -9,7 +9,14 @@ export const laasMetricsApi = createApi({
     baseUrl: baseUrl + "/metrics",
     prepareHeaders: prepareHeaders,
   }),
-  endpoints: (builder) => ({}),
+  endpoints: (builder) => ({
+    getMetrics: builder.query({
+      query: ({ id }) => ({
+        url: id,
+      }),
+      // providesTags: ['']
+    }),
+  }),
 });
 
 export const {} = laasMetricsApi;

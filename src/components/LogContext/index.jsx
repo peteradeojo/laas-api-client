@@ -5,6 +5,8 @@ import style from './style.module.scss';
 const ContextItem = ({ item, name }) => {
   const [open, setOpen] = useState(false);
 
+  typeof item == 'object' && (item = JSON.stringify(item, null, 2));
+
   return (
     <p onClick={() => setOpen(!open)} className={`${style.context} ${open ? style.open : style.closed}`}>
       <b>{name}</b>:

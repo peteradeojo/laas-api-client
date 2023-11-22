@@ -3,8 +3,8 @@ import styles from './style.module.scss';
 
 const Modal = ({ children, closer }) => {
 	// Closer function is required to display the modal
-	const modalRef = useRef();
 	if (!closer) return <></>;
+	const modalRef = useRef();
 
 	return (
 		<div

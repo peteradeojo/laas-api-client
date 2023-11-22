@@ -17,9 +17,6 @@ export const buildUserEl = (data) => {
 export const buildAppLinks = (apps) => {
   return (
     <>
-      <Link to={"/dashboard/apps"}>
-        <FaPlus /> Create App
-      </Link>
       {apps.map((app) => (
         <Link key={app.id} to={`/dashboard/apps/${app.id}`}>
           {app.title}

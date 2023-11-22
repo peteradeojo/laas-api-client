@@ -2,13 +2,13 @@ import { useState } from "react";
 import { useGetAppsQuery, useCreateAppMutation } from "../../services/api";
 
 import authStyles from "../Login/styles.module.scss";
-import { Link, useNavigate } from "react-router-dom";
-import AppHeader from "../../components/AppHeader";
+import { Link } from "react-router-dom";
 import ProgressLoader from "../../components/Loaders/ProgessLoader";
 
-import styles from "./style.module.scss";
+import Modal from "../../components/Modal";
+import styles from './style.module.scss'
 
-const NewAppForm = ({ refetch }) => {
+const NewAppForm = ({ refetch, closer }) => {
   const [title, setTitle] = useState("");
   const [createApp, result] = useCreateAppMutation();
   // const navigate = useNavigate();
@@ -19,9 +19,10 @@ const NewAppForm = ({ refetch }) => {
   };
 
   return (
-    <>
+    <Modal closer={() => closer(false)}>
+      <h3 className="py-5">Create Application</h3>
       <form
-        className={`mt-3 ${authStyles.loginForm}`}
+        className={authStyles.loginForm}
         onSubmit={(e) => {
           e.preventDefault();
           submitForm();
@@ -40,7 +41,7 @@ const NewAppForm = ({ refetch }) => {
           Submit
         </button>
       </form>
-    </>
+    </Modal>
   );
 };
 
@@ -50,7 +51,16 @@ const Apps = () => {
 
   return (
     <div className="container">
-      <AppHeader app={{ title: "Apps" }} clearResult={() => {}} />
+      {/* <AppHeader app={{ title: "Apps" }} clearResult={() => {}} /> */}
+      <h1 className="pb-2">Apps</h1>
+      <button
+        onClick={() => {
+          setNewAppForm(!newAppForm);
+        }}
+        className="btn"
+      >
+        Create App
+      </button>
 
       {error && <p>An error occured</p>}
       {isLoading && <ProgressLoader />}
@@ -83,16 +93,8 @@ const Apps = () => {
       ) : (
         <p>No apps. </p>
       )}
-      <button
-        onClick={() => {
-          setNewAppForm(!newAppForm);
-        }}
-        className="btn"
-      >
-        Create App
-      </button>
 
-      {newAppForm && <NewAppForm refetch={refetch} />}
+      {newAppForm && <NewAppForm refetch={refetch} closer={setNewAppForm} />}
     </div>
   );
 };

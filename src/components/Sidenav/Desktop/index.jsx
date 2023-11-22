@@ -38,7 +38,7 @@ const DesktopSidenav = ({ userHook, appsHook, logout }) => {
 									</Link>
 								</li>
 								<li>
-									<a href="https://github.com/peteradeojo/laas-api-client">
+									<a href="https://github.com/peteradeojo/laas-api-client" target='_blank' rel='noreferrer noopener'>
 										<FaGithub /> View on Github
 									</a>
 								</li>

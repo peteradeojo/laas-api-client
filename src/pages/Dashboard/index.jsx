@@ -19,11 +19,18 @@ const Metric = ({ m }) => {
 					xAxis={[
 						{
 							id: 'Level',
-							data: m.data.map((d) => d.level),
+							data: ['info', 'debug', 'warn', 'error', 'critical'],
 							scaleType: 'band',
 						},
 					]}
-					series={[{ data: m.data.map((d) => parseFloat(d.weight)) }]}
+					series={[
+						{
+							data:
+								m.data.length < 1
+									? [0, 0, 0, 0, 0]
+									: m.data.map((d) => parseFloat(d.weight)),
+						},
+					]}
 					height={300}
 					width={400}
 					bottomAxis={'Level'}

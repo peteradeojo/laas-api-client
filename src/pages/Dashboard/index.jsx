@@ -19,7 +19,7 @@ const Metric = ({ m }) => {
 					xAxis={[
 						{
 							id: 'Level',
-							data: ['info', 'debug', 'warn', 'error', 'critical'],
+							data: m.data.map((d) => d.level),
 							scaleType: 'band',
 						},
 					]}

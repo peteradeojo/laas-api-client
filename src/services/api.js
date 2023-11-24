@@ -9,10 +9,11 @@ export const laasApi = createApi({
   baseQuery: fetchBaseQuery({
     baseUrl,
     prepareHeaders: prepareHeaders,
+    timeout: 10000
   }),
   refetchOnReconnect: true,
   keepUnusedDataFor: 2 * 60,
-  tagTypes: ["Apps"],
+  tagTypes: ["Apps", "Auth", "User"],
 
   endpoints: (builder) => ({
     login: builder.mutation({
@@ -21,6 +22,7 @@ export const laasApi = createApi({
         method: "POST",
         body,
       }),
+      providesTags: ["User"],
     }),
     signup: builder.mutation({
       query: (body) => ({

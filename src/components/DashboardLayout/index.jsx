@@ -9,7 +9,7 @@ const DashBoardLayout = () => {
 
 	return (
 		<>
-			{appsHook.isError && <Navigate to="/login" />}
+			{/* {appsHook.isError && <Navigate to="/login" />} */}
 		
 			{!token && <Navigate to="/login" />}
 			<Sidenav appsHook={appsHook} userHook={userHook} />

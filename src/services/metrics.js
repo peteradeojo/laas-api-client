@@ -8,6 +8,7 @@ export const laasMetricsApi = createApi({
 	baseQuery: fetchBaseQuery({
 		baseUrl: baseUrl + '/metrics',
 		prepareHeaders: prepareHeaders,
+		timeout: 10000
 	}),
 	endpoints: (builder) => ({
 		getMetrics: builder.query({

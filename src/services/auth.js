@@ -6,6 +6,7 @@ export const laasAuthApi = createApi({
   reducerPath: "authApi",
   baseQuery: fetchBaseQuery({
     baseUrl: baseUrl + "/auth",
+    timeout: 10000
   }),
   endpoints: (builder) => ({
     githubLogin: builder.mutation({

@@ -4,6 +4,15 @@ import { BarChart } from '@mui/x-charts';
 import MediaQuery from 'react-responsive';
 
 const Metric = ({ m }) => {
+	// const series = [
+	// 	{
+	// 		data:
+	// 			m.data.length < 1
+	// 				? [0, 0, 0, 0, 0]
+	// 				: m.data.map((d) => parseFloat(d.weight)),
+	// 	},
+	// ];
+
 	return (
 		<div style={{ width: '100%', minHeight: '300px' }}>
 			<h2>
@@ -45,7 +54,14 @@ const Metric = ({ m }) => {
 							scaleType: 'band',
 						},
 					]}
-					series={[{ data: m.data.map((d) => parseFloat(d.weight)) }]}
+					series={[
+						{
+							data:
+								m.data.length < 1
+									? [0, 0, 0, 0, 0]
+									: m.data.map((d) => parseFloat(d.weight)),
+						},
+					]}
 					height={300}
 					width={280}
 					bottomAxis={'Level'}

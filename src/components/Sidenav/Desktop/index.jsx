@@ -12,7 +12,7 @@ import {
 } from 'react-icons/fa';
 import { Link } from 'react-router-dom';
 
-import { buildAppLinks, buildUserEl } from '../util';
+import { buildUserEl } from '../util';
 
 const DesktopSidenav = ({ userHook, appsHook, logout }) => {
 	return (

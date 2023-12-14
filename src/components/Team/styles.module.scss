@@ -1,0 +1,22 @@
+.TeamList {
+  border-collapse: collapse;
+  width: 100%;
+  font: 15px/1.5 Arial, sans-serif;
+
+  th,
+  td {
+    padding: 14px;
+    margin: 0;
+    text-align: left;
+  }
+
+
+  thead,
+  tbody tr:nth-child(even) {
+    background-color: #ccc;
+  }
+
+  & {
+    border-radius: 6px;
+  }
+}

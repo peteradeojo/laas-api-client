@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useContext, useState } from "react";
 import { useGetAppsQuery, useCreateAppMutation } from "../../services/api";
 
 import authStyles from "../Login/styles.module.scss";
@@ -7,6 +7,7 @@ import ProgressLoader from "../../components/Loaders/ProgessLoader";
 
 import Modal from "../../components/Modal";
 import styles from './style.module.scss'
+import { TeamContext } from "../../context/TeamContext";
 
 const NewAppForm = ({ refetch, closer }) => {
   const [title, setTitle] = useState("");
@@ -47,7 +48,8 @@ const NewAppForm = ({ refetch, closer }) => {
 
 const Apps = () => {
   const [newAppForm, setNewAppForm] = useState(false);
-  const { data, error, isLoading, refetch } = useGetAppsQuery();
+  const team = useContext(TeamContext);
+  const { data, error, isLoading, refetch } = useGetAppsQuery(team.onTeam);
 
   return (
     <div className="container">

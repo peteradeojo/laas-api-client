@@ -42,7 +42,7 @@ export const laasApi = createApi({
 
 		getApps: builder.query({
 			query: (team = undefined) => ({
-				url: team ? `apps?teamId=${team}` : 'apps',
+				url: Boolean(team) == true ? `apps?teamId=${team}` : 'apps',
 				method: 'GET',
 			}),
 			providesTags: ['Apps'],

@@ -26,7 +26,7 @@ const Profile = () => {
 	}
 
 	if (isError) {
-		return <>{error.data.message}</>;
+		return <>{error.data?.message}</>;
 	}
 
 	data = data.data;

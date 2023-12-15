@@ -10,7 +10,7 @@ const Nav = ({ data }) => {
 	const appsHook = useGetAppsQuery(team.onTeam);
 
 	const switchTeam = async (e) => {
-		team.onTeam = e.target.value;
+		team.onTeam = e.target.value != 'false' ? e.target.value : undefined;
 		try {
 			await appsHook.refetch(team.onTeam);
 		} catch (error) {
@@ -23,6 +23,7 @@ const Nav = ({ data }) => {
 			<div className={styles.NavArea}>
 				{data.length > 0 ? (
 					<select onChange={switchTeam}>
+						<option value={false}>Select Team</option>
 						{data.map((t) => {
 							return (
 								<option key={t.id} value={t.id}>
@@ -54,11 +55,13 @@ const TopNav = () => {
 
 	const back = () => {
 		navigate(-1);
-	}
+	};
 
 	return (
 		<div className={styles.TopNav}>
-			<button className='btn' onClick={back}>Back</button>
+			<button className="btn" onClick={back}>
+				Back
+			</button>
 			{isLoading ? <p>Loading</p> : null}
 			{isError ? <p>An error occurred. Unable to fetch data</p> : null}
 			{isSuccess ? (

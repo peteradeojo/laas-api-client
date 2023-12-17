@@ -1,6 +1,11 @@
 .container {
   padding: 1em;
-
+  margin: auto;
+  height: 90vh;
+  overflow-y: hidden;
+  display: flex;
+  align-items: center;
+  flex-direction: column;
   @media screen and (min-width: 768px) {
     border-radius: 8px;
   }
@@ -11,12 +16,20 @@
   display: flex;
   flex-direction: column;
   // background-color: #ccc;
+  width: 35%;
+  margin: auto;
+  gap: 0.5rem;
 
   @media screen and (max-width: 425px) {
     height: 100vmin;
     align-items: center;
     justify-content: center;
     border-radius: 8px;
+  }
+  .authTitle {
+    text-align: center;
+    margin-bottom: 0.3rem;
+    font-weight: 600;
   }
 
   input {
@@ -27,10 +40,10 @@
     border: 1px solid #ccc;
   }
 
-  button {
+  .btn {
     width: 100%;
     padding: 0.5em;
-    border-radius: 4px;
+    border-radius: 5px;
     border: 1px solid #ccc;
     color: #fff;
     background-color: blue;
@@ -39,15 +52,29 @@
   }
 }
 
+.loginOption {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 0.5rem;
+  span {
+    display: block;
+    width: 20px;
+    height: 1px;
+    background: #000;
+  }
+}
+
 .githubLogin {
   background-color: #333;
   color: #fff;
   padding: 6px 12px;
   text-align: center;
-  border-radius: 4px;
-  border: 2px outset #fff;
-  margin: 4px 0;
+  border-radius: 5px;
+  border: 1px outset #fff;
+  margin: 4px auto;
   outline: 1px solid #000;
+  width: 100%;
   &:hover {
     background-color: #fff;
     color: #333;

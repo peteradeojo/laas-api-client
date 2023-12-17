@@ -52,6 +52,7 @@ const LogFilterPanel = ({
 						<option value="error">Error</option>
 						<option value="fatal">Fatal</option>
 						<option value="debug">Debug</option>
+						<option value="critical">Critical</option>
 					</select>
 					<button className="btn">Filter</button>
 				</div>

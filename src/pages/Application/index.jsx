@@ -60,16 +60,16 @@ const Application = () => {
     appHook.refetch();
   };
 
-  useEffect(() => {
-    const handleLogsMessage = (message) => {
-      setAdditionalLogs((prev) => [message, ...prev]);
-    };
-    socket.on("log", handleLogsMessage);
+  // useEffect(() => {
+  //   const handleLogsMessage = (message) => {
+  //     setAdditionalLogs((prev) => [message, ...prev]);
+  //   };
+  //   socket.on("log", handleLogsMessage);
 
-    return () => {
-      socket.off("log", handleLogsMessage);
-    };
-  }, []);
+  //   return () => {
+  //     socket.off("log", handleLogsMessage);
+  //   };
+  // }, []);
 
   const deleteAllLogs = async () => {
     setAdditionalLogs([]);

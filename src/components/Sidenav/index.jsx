@@ -1,18 +1,10 @@
-import { Link, useNavigate } from 'react-router-dom';
-import {
-	FaArrowAltCircleRight,
-	FaArrowDown,
-	FaArrowRight,
-	FaCog,
-	FaHome,
-	FaPlus,
-} from 'react-icons/fa';
+import { useNavigate } from 'react-router-dom';
 import { useMediaQuery } from '@mui/material';
-import { useState } from 'react';
 
-import styles from './style.module.scss';
 import MobileNav from './Mobile';
 import DesktopSidenav from './Desktop';
+import { TeamContext } from '../../context/TeamContext';
+import { useContext } from 'react';
 
 const Sidenav = ({ userHook, appsHook }) => {
 	const isMobile = useMediaQuery('(max-width: 768px)');
@@ -22,13 +14,23 @@ const Sidenav = ({ userHook, appsHook }) => {
 	const logout = () => {
 		localStorage.removeItem('authToken');
 		window.location.reload();
-		// navigate('/login');
+		navigate('/login');
 	};
 
-	return !isMobile ? (
-		<DesktopSidenav userHook={userHook} appsHook={appsHook} logout={logout} />
-	) : (
-		<MobileNav userHook={userHook} appsHook={appsHook} logout={logout} />
+	const team = useContext(TeamContext);
+
+	return (
+		<TeamContext.Provider value={team}>
+			{!isMobile ? (
+				<DesktopSidenav
+					userHook={userHook}
+					appsHook={appsHook}
+					logout={logout}
+				/>
+			) : (
+				<MobileNav userHook={userHook} appsHook={appsHook} logout={logout} />
+			)}
+		</TeamContext.Provider>
 	);
 };
 

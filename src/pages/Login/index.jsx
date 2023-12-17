@@ -6,10 +6,14 @@ import { Link, useNavigate } from "react-router-dom";
 import { useLoginMutation, useVerify2FaMutation } from "../../services/api";
 import ProgressLoader from "../../components/Loaders/ProgessLoader";
 import { FaGithub } from "react-icons/fa";
+import Alert from "@mui/material/Alert";
+import Backdrop from "@mui/material/Backdrop";
+import CircularProgress from "@mui/material/CircularProgress";
 
 const Login = () => {
   const [twoFaScreen, setTwoFaScreen] = useState(false);
   const [email, setEmail] = useState("");
+  const [errorMsg, setErrorMsg] = useState("");
   const [password, setPassword] = useState("");
   const [twoFaToken, setTwoFaToken] = useState("");
   const navigate = useNavigate();
@@ -19,7 +23,6 @@ const Login = () => {
 
   const verifyToken = async (e) => {
     e.preventDefault();
-
     const body = {
       token: twoFaToken,
       email,
@@ -49,7 +52,10 @@ const Login = () => {
         localStorage.setItem("authToken", token);
         navigate("/dashboard");
       }
-    } catch (err) {}
+    } catch (err) {
+      console.log(err);
+      setErrorMsg(err.data.message || "something went Wrong");
+    }
   };
 
   const loginWithGithub = async (e) => {
@@ -60,15 +66,33 @@ const Login = () => {
   return (
     <>
       <div className={styles.container}>
-        <h1>Login</h1>
-
         {verify2FaResult.isLoading && <ProgressLoader />}
-        {isLoading && <p>Loading...</p>}
-        {isError && <p>Something went wrong: {error.message}</p>}
+        {isLoading && (
+          <>
+            <Backdrop
+              sx={{ color: "#fff", zIndex: (theme) => theme.zIndex.drawer + 1 }}
+              open={isLoading}
+            >
+              <CircularProgress color="inherit" />
+            </Backdrop>
+          </>
+        )}
+        {/* {isError && <p>Something went wrong: {error.message}</p>} */}
 
         {!twoFaScreen ? (
           <>
             <form className={styles.loginForm} onSubmit={submitForm}>
+              <h1 className={styles.authTitle}>Login</h1>
+              {errorMsg && (
+                <Alert
+                  severity="error"
+                  onClose={() => {
+                    setErrorMsg("");
+                  }}
+                >
+                  {errorMsg}
+                </Alert>
+              )}
               <input
                 type="email"
                 placeholder="Email"
@@ -83,26 +107,31 @@ const Login = () => {
                 onChange={(e) => setPassword(e.target.value)}
               />
 
-              <button type="submit" disabled={isLoading ? true : false}>
+              <button className={styles.btn} type="submit" disabled={isLoading}>
                 Login
               </button>
+              <div className={styles.loginOption}>
+                <span />
+                <p>or</p>
+                <span />
+              </div>
+              <div>
+                <button
+                  onClick={loginWithGithub}
+                  className={styles.githubLogin}
+                >
+                  <FaGithub /> Login with Github
+                </button>
+              </div>
+              <p className="center">
+                Don't have an account? <Link to="/signup">Sign Up</Link>
+              </p>
             </form>
-
-            <div>
-              <button onClick={loginWithGithub} className={styles.githubLogin}>
-                <FaGithub /> Login with Github
-              </button>
-            </div>
-
-            <p className="center">
-              Don't have an account? <Link to="/signup">Sign Up</Link>
-            </p>
           </>
         ) : (
           <>
             <div className="center">
               <h2>Enter Verification Token</h2>
-
               <form className="my-3" onSubmit={verifyToken}>
                 <div className="form-group">
                   <input

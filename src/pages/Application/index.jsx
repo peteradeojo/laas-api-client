@@ -7,16 +7,12 @@ import {
   useDeleteLogMutation,
 } from "../../services/api";
 
-import styles from "./style.module.scss";
 import { useState, useEffect } from "react";
 import io from "socket.io-client";
 import ProgressLoader from "../../components/Loaders/ProgessLoader";
 import AppHeader from "../../components/AppHeader";
 import Log from "../../components/Log";
-import LogFilterPanel from "../../components/LogFilterPanel";
 import PageSwitcher from "../../components/PageSwitcher";
-
-const socket = io(__APP_ENV__.WS_URL);
 
 const LogList = ({ logs, refetchLogs, logDeleter }) => {
   return logs.map((log) => (
@@ -34,6 +30,8 @@ const AppTokenGenerator = ({ onClick }) => (
 );
 
 const Application = () => {
+  const socket = io(__APP_ENV__.WS_URL);
+
   const [logFilter, setLogsFilter] = useState({});
   const [page, setPage] = useState(1);
   const [additionalLogs, setAdditionalLogs] = useState([]);
@@ -60,16 +58,17 @@ const Application = () => {
     appHook.refetch();
   };
 
-  // useEffect(() => {
-  //   const handleLogsMessage = (message) => {
-  //     setAdditionalLogs((prev) => [message, ...prev]);
-  //   };
-  //   socket.on("log", handleLogsMessage);
+  useEffect(() => {
+    const handleLogsMessage = (message) => {
+      setAdditionalLogs((prev) => [message, ...prev]);
+    };
+    socket.on("log", handleLogsMessage);
 
-  //   return () => {
-  //     socket.off("log", handleLogsMessage);
-  //   };
-  // }, []);
+    return () => {
+      socket.off("log", handleLogsMessage);
+      socket.disconnect();
+    };
+  }, []);
 
   const deleteAllLogs = async () => {
     setAdditionalLogs([]);

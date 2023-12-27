@@ -13,7 +13,7 @@ const PageSwitcher = ({
 		setPage(page + 1);
 	};
 
-	const ofPage = Math.floor(logs?.total / logs?.count);
+	const ofPage = Math.ceil(logs?.total / logs?.count);
 
 	const prevPage = () => {
 		if (page == 1) return;

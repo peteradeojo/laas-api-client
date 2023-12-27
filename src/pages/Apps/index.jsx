@@ -65,7 +65,7 @@ const Apps = () => {
       </button>
 
       {error && <p>An error occured</p>}
-      {isLoading && <ProgressLoader />}
+      {isLoading && <ProgressLoader isLoading={true} />}
       {data && data.data.length >= 1 ? (
         <>
           <table className={styles.appTable}>

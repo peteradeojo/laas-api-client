@@ -64,7 +64,7 @@ const Dashboard = () => {
 	return (
 		<div className="container">
 			{metricsQuery.isLoading ? (
-				<ProgressLoader />
+				<ProgressLoader isLoading={true} />
 			) : metricsQuery.isError ? (
 				<p>{metricsQuery.error.message}</p>
 			) : (

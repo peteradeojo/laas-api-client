@@ -12,6 +12,9 @@
   &.evenly {
     justify-content: space-evenly;
   }
+  &.nowrap {
+    flex-wrap: nowrap;
+  }
 }
 
 @for $i from 1 through 12 {

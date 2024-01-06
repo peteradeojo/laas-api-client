@@ -115,14 +115,9 @@ const Login = () => {
                 <p>or</p>
                 <span />
               </div>
-              <div>
-                <button
-                  onClick={loginWithGithub}
-                  className={styles.githubLogin}
-                >
-                  <FaGithub /> Login with Github
-                </button>
-              </div>
+              <button onClick={loginWithGithub} className={styles.githubLogin}>
+                <FaGithub /> Login with Github
+              </button>
               <p className="center">
                 Don't have an account? <Link to="/signup">Sign Up</Link>
               </p>

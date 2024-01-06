@@ -1,7 +1,6 @@
 import { Link } from "react-router-dom";
 import { useGetUserQuery } from "../../services/api";
 import { Navigate } from "react-router-dom";
-
 const Home = () => {
   const { data: user, error, isLoading } = useGetUserQuery();
 

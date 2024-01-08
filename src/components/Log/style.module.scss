@@ -1,24 +1,28 @@
 $error: #F17A7A;
-$fatal: $error;
+$fatal: #f00;
 $info: #876EEB;
 $debug: #44AF55;
 $critical: #000;
-$warning: #f00;
+$warning: #ff0;
 
 @mixin levels {
   &.fatal {
     background-color: $fatal;
     color: #fff;
   }
-
   &.critical {
     background: $critical;
     color: #fff;
   }
-
   &.info {
     background: $info;
     color: #fff;
+  }
+  &.error {
+    background-color: $error;
+  }
+  &.warn {
+    background-color: $warning;
   }
 }
 
@@ -31,74 +35,12 @@ $warning: #f00;
   border-radius: 8px;
 }
 
-// .log {
-//   p,
-//   span {
-//     font: 14px/1.5 sans-serif;
-//   }
-//   margin: 1em auto;
-//   width: 95%;
-//   position: relative;
-//   display: flex;
-
-//   flex-basis: 100%;
-
-//   & .close {
-//     position: absolute;
-//     right: 0;
-//     top: 0;
-//     padding: 6px 24px;
-//     cursor: pointer;
-//     border-top-right-radius: inherit;
-//     &:hover {
-//       color: #fff;
-//       background-color: lighten($color: #000000, $amount: 0.9);
-//     }
-//   }
-
-//   .levelBar {
-//     width: 1%;
-//     background-color: #000;
-//     margin-right: 10px;
-//     &.fatal {
-//       background-color: red;
-//       color: #fff;
-//     }
-//     &.info {
-//       background-color: blue;
-//       color: #fff;
-//     }
-//     &.error {
-//       background-color: orange;
-//       color: #fff;
-//     }
-//     &.warn {
-//       background-color: yellow;
-//       color: #fff;
-//     }
-//     &.debug {
-//       background-color: green;
-//       color: #fff;
-//     }
-//     &.critical {
-//       background-color: darkred;
-//       color: #fff;
-//     }
-//   }
-
-//   .logContent {
-//     width: 100%;
-//     padding: 5px 4px;
-//   }
-// }
 .log {
   .level {
     padding: 4px;
     width: 11%;
-    // background-color: red;
     border-radius: 4px 0 0 4px;
     text-align: center;
-    // font-size: 0.9em;
     border: 1px solid #ccc;
     @include levels();
   }
@@ -125,7 +67,6 @@ $warning: #f00;
     height: 10%;
     font-family: "Inter",sans-serif;
     padding-bottom: 25px;
-    color: #000;
   }
 
   .logMessage {

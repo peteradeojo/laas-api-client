@@ -139,7 +139,7 @@ export const laasApi = createApi({
     }),
     acceptTeamInvite: builder.mutation({
       query: (data) => ({
-        url: "/accept-invite",
+        url: `/accept-invite`,
         method: "POST",
         body: data,
       }),
@@ -164,4 +164,5 @@ export const {
   useSetup2FaMutation,
   useEnable2FaMutation,
   useVerify2FaMutation,
+  useAcceptTeamInviteMutation,
 } = laasApi;

@@ -39,6 +39,13 @@ export const teamsApi = createApi({
 				body: data,
 			}),
 		}),
+		// acceptInvite: builder.mutation({
+		// 	query: (data) => ({
+		// 		url: 'accept-invite',
+		// 		method: 'POST',
+		// 		body: data,
+		// 	}),
+		// }),
 	}),
 });
 

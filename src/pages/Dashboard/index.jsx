@@ -3,6 +3,8 @@ import ProgressLoader from '../../components/Loaders/ProgessLoader';
 import { useGetSummaryMetricsQuery } from '../../services/metrics';
 import { BarChart } from '@mui/x-charts';
 import MediaQuery from 'react-responsive';
+import { useContext } from 'react';
+import { TeamContext } from '../../context/TeamContext';
 
 const Metric = ({ m }) => {
 	const series = [
@@ -55,11 +57,15 @@ const Metric = ({ m }) => {
 };
 
 const Metrics = ({ metrics }) => {
-	return metrics.map((m, i) => <Metric key={i} m={m} />);
+	const team = useContext(TeamContext);
+	
+	console.log(team);
+	return metrics?.map((m, i) => <Metric key={i} m={m} />);
 };
 
 const Dashboard = () => {
-	const metricsQuery = useGetSummaryMetricsQuery();
+	const teamCtx = useContext(TeamContext);
+	const metricsQuery = useGetSummaryMetricsQuery(teamCtx.onTeam);
 
 	return (
 		<div className="container">

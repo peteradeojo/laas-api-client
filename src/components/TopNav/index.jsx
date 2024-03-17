@@ -5,7 +5,7 @@ import { useTeamsQuery } from '../../services/teams';
 import styles from './style.module.scss';
 import { useGetAppsQuery } from '../../services/api';
 
-const Nav = ({ data }) => {
+const Nav = ({ data, update }) => {
 	const team = useContext(TeamContext);
 	const appsHook = useGetAppsQuery(team.onTeam);
 
@@ -13,6 +13,7 @@ const Nav = ({ data }) => {
 		team.onTeam = e.target.value != 'false' ? e.target.value : undefined;
 		try {
 			await appsHook.refetch(team.onTeam);
+			update(team.onTeam);
 		} catch (error) {
 			console.error(error);
 		}
@@ -44,7 +45,7 @@ const Nav = ({ data }) => {
 	return <></>;
 };
 
-const TopNav = () => {
+const TopNav = ({ updateTeam }) => {
 	const navigate = useNavigate();
 	const { isLoading, isError, isFetching, isSuccess, data, error } =
 		useTeamsQuery({
@@ -65,10 +66,10 @@ const TopNav = () => {
 			{isLoading ? <p>Loading</p> : null}
 			{isError ? <p>An error occurred. Unable to fetch data</p> : null}
 			{isSuccess ? (
-				<TeamContext.Provider value={team}>
-					<Nav data={data} team={data} />
-				</TeamContext.Provider>
+				// <TeamContext.Provider value={team}>
+				<Nav data={data} team={data} update={updateTeam} />
 			) : (
+				// </TeamContext.Provider>
 				<>{error}</>
 			)}
 		</div>

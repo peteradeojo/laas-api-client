@@ -10,8 +10,10 @@ import { Link } from 'react-router-dom';
 export const TeamRecord = ({ team }) => {
 	return (
 		<tr>
-			<td><Link to={`teams/${team.id}`}>{team.name}</Link></td>
-			<td>{formatDate(team.createdAt)}</td>
+			<td>
+				<Link to={`teams/${team.id}`}>{team.name}</Link>
+			</td>
+			<td>{formatDate(team.createdat)}</td>
 		</tr>
 	);
 };

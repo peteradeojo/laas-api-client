@@ -3,14 +3,18 @@ import { Navigate, Outlet } from 'react-router-dom';
 import Sidenav from '../Sidenav';
 import TopNav from '../TopNav';
 import { TeamContext } from '../../context/TeamContext';
-import { useContext } from 'react';
+import { useContext, useState } from 'react';
 
 const DashBoardLayout = () => {
-	const team = useContext(TeamContext);
-	
+	const teamCtx = useContext(TeamContext);
+
+	const [team, setTeam] = useState(teamCtx);
+
 	const token = localStorage.getItem('authToken');
 	const userHook = useGetUserQuery(token);
-	const appsHook = useGetAppsQuery(team.onTeam, { refetchOnMountOrArgChange: false });
+	const appsHook = useGetAppsQuery(teamCtx.onTeam, {
+		refetchOnMountOrArgChange: false,
+	});
 
 	return (
 		<>
@@ -22,7 +26,11 @@ const DashBoardLayout = () => {
 
 			<TeamContext.Provider value={team}>
 				<div className="main withSidebar">
-					<TopNav />
+					<TopNav
+						updateTeam={(id) => {
+							setTeam({ ...team, onTeam: id });
+						}}
+					/>
 					<Outlet />
 				</div>
 			</TeamContext.Provider>

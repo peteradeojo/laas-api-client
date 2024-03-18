@@ -20,7 +20,10 @@ const Metric = ({ m }) => {
 		{
 			id: 'Level',
 			scaleType: 'band',
-			data: m.data.length < 1 ? ["critical", "warn", "error", "fatal"] : m.data.map((d) => d.level),
+			data:
+				m.data.length < 1
+					? ['critical', 'warn', 'error', 'fatal']
+					: m.data.map((d) => d.level),
 		},
 	];
 
@@ -29,7 +32,7 @@ const Metric = ({ m }) => {
 			<h2>
 				App:{' '}
 				<b>
-					<Link to={`/dashboard/apps/${m.appId}`} >{m.app}</Link>
+					<Link to={`/dashboard/apps/${m.appId}`}>{m.app}</Link>
 				</b>
 			</h2>
 			<br />
@@ -57,9 +60,6 @@ const Metric = ({ m }) => {
 };
 
 const Metrics = ({ metrics }) => {
-	const team = useContext(TeamContext);
-	
-	console.log(team);
 	return metrics?.map((m, i) => <Metric key={i} m={m} />);
 };
 
@@ -69,7 +69,7 @@ const Dashboard = () => {
 
 	return (
 		<div className="container">
-			{metricsQuery.isLoading ? (
+			{metricsQuery.isLoading || metricsQuery.isFetching ? (
 				<ProgressLoader isLoading={true} />
 			) : metricsQuery.isError ? (
 				<p>{metricsQuery.error.message}</p>

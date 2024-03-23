@@ -19,7 +19,10 @@ const useSocketSetup = (handleMessage, appToken = '') => {
 
 			return () => {
 				socket.off('connect_error');
-				socket.disconnect();
+				socket.off('log');
+        socket.emit("closing_stream");
+				// socket.disconnect();
+        // socket.close();
 			};
 		}, [appToken]);
 	} else {

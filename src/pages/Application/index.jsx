@@ -8,13 +8,13 @@ import {
 } from '../../services/api';
 
 import { useState, useEffect } from 'react';
-import io from 'socket.io-client';
 import ProgressLoader from '../../components/Loaders/ProgessLoader';
 import AppHeader from '../../components/AppHeader';
 import Log from '../../components/Log';
 import PageSwitcher from '../../components/PageSwitcher';
 import { useContext } from 'react';
 import { AppContext } from '../../context/AppContext';
+import useSocketSetup from './useSocketSetup';
 
 const LogList = ({ logs, refetchLogs, logDeleter }) => {
 	return logs.map((log) => (
@@ -32,17 +32,13 @@ const AppTokenGenerator = ({ onClick }) => (
 );
 
 const Application = () => {
-	const socket = io(__APP_ENV__.WS_URL);
-
 	const [logFilter, setLogsFilter] = useState({});
 	const [page, setPage] = useState(1);
 	const [additionalLogs, setAdditionalLogs] = useState([]);
 
-  const appContext = useContext(AppContext);
+	const appContext = useContext(AppContext);
 
 	const { id } = useParams();
-
-	socket.emit('connect-log-stream', id);
 
 	const logsHook = useGetAppLogsQuery({
 		appId: id,
@@ -62,21 +58,15 @@ const Application = () => {
 		appHook.refetch();
 	};
 
-  if (appHook.isSuccess) {
-    appContext.app = appHook.data.data;
-  }
+	if (appHook.isSuccess) {
+		appContext.app = appHook.data.data;
+	}
 
-	useEffect(() => {
-		const handleLogsMessage = (message) => {
-			setAdditionalLogs((prev) => [message, ...prev]);
-		};
-		socket.on('log', handleLogsMessage);
-
-		return () => {
-			socket.off('log', handleLogsMessage);
-			socket.disconnect();
-		};
-	}, []);
+	const handleLogsMessage = (message) => {
+		console.log(message);
+		setAdditionalLogs((prev) => [message, ...prev]);
+	};
+	useSocketSetup(handleLogsMessage, appHook.data?.data.token);
 
 	const deleteAllLogs = async () => {
 		setAdditionalLogs([]);
@@ -110,7 +100,9 @@ const Application = () => {
 				<></>
 			)}
 
-			{(logsHook.isFetching || logsHook.isLoading) && <ProgressLoader isLoading={true} />}
+			{(logsHook.isFetching || logsHook.isLoading) && (
+				<ProgressLoader isLoading={true} />
+			)}
 			<>
 				<PageSwitcher
 					appId={appHook?.data?.data?.id}
@@ -135,7 +127,9 @@ const Application = () => {
 				) : (
 					<>
 						<div className="container" style={{ wordBreak: 'break-word' }}>
-							<div className="p-2 mb-2 bg-primary">{appHook?.data?.data?.token}</div>
+							<div className="p-2 mb-2 bg-primary">
+								{appHook?.data?.data?.token}
+							</div>
 							{
 								<LogList
 									logs={[...additionalLogs, ...(logsHook.data.data || [])]}

@@ -50,19 +50,17 @@ const Log = ({
 					)}
 				</div>
 				<br />
-				<pre>
-					curl
-					<br />
-					-X POST
-					<br />
-					https://laas-api-nest.onrender.com/logs
-					<br />
-					-H "APP_ID: {appToken}"
-					<br />
-					--json
-					<br />
-					{'{"level": "info", "text": "Hello World"}'}
-				</pre>
+				<div>
+					<p>
+						curl -X POST {`${__APP_ENV__.API_URL}`}/logs -H "APP_ID: {appToken}"
+						--json{' '}
+						{JSON.stringify({
+							level: 'info',
+							text: 'hello world',
+						})}
+					</p>
+					<button>Copy</button>
+				</div>
 			</div>
 		);
 	}
@@ -80,20 +78,18 @@ const Log = ({
 	};
 
 	const toggleExpansion = (e) => {
-    setExpanded(!expanded);
-  };
+		setExpanded(!expanded);
+	};
 
 	return (
 		<>
-			<div
-				className={`${styles.log} ${expanded ? 'expanded' : ''}`}
-			>
+			<div className={`${styles.log} ${expanded ? 'expanded' : ''}`}>
 				{!expanded ? (
 					<>
 						<div className="row nowrap">
 							<p
 								className={`${styles.level} ${styles[log.level.toLowerCase()]}`}
-                onClick={toggleExpansion}
+								onClick={toggleExpansion}
 							>
 								{log.level.toUpperCase()}
 							</p>
@@ -109,7 +105,10 @@ const Log = ({
 							styles[log.level.toLowerCase()]
 						}`}
 					>
-						<p className={`${styles.title} row between`} onClick={toggleExpansion}>
+						<p
+							className={`${styles.title} row between`}
+							onClick={toggleExpansion}
+						>
 							<span>
 								<b>{appContext.app.title} </b>(IP: {log.ip})
 							</span>
@@ -125,35 +124,6 @@ const Log = ({
 			</div>
 		</>
 	);
-
-	// return (
-	//   <>
-	//     <div className={`${styles.log}`}>
-	//       <span
-	//         className={styles.close}
-	//         onClick={() => {
-	//           deleteLogHandler(log.id);
-	//         }}
-	//       >
-	//         &times;
-	//       </span>
-	//       <span className={`${styles.levelBar} ${styles[log.level]}`}></span>
-	//       <div className={`${styles.logContent}`}>
-	//         <div>
-	//           <p style={{ fontSize: "1.3em", fontWeight: "bolder" }}>
-	//             {log.level.toUpperCase()}
-	//           </p>
-	//           <small>{parseDate(log.createdAt)}</small>
-	//           <p>
-	//             <b>IP Address:</b> {log.ip}
-	//           </p>
-	//           <p style={{ padding: "10px 4px", background: "#ccc" }}>{log.text}</p>
-	//           <LogContext context={log.context} />
-	//         </div>
-	//       </div>
-	//     </div>
-	//   </>
-	// );
 };
 
 export default Log;

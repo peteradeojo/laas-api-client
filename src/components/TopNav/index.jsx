@@ -68,9 +68,10 @@ const TopNav = ({ updateTeam }) => {
 			{isSuccess ? (
 				// <TeamContext.Provider value={team}>
 				<Nav data={data} team={data} update={updateTeam} />
+				// <></>
 			) : (
 				// </TeamContext.Provider>
-				<>{error}</>
+				<>{error?.data}</>
 			)}
 		</div>
 	);

@@ -10,7 +10,7 @@ const Metric = ({ m }) => {
 	const series = [
 		{
 			data:
-				m.data.length < 1
+				m?.data.length < 1
 					? [0, 0, 0, 0]
 					: m.data.map((d) => parseFloat(d.weight)),
 		},
@@ -72,7 +72,7 @@ const Dashboard = () => {
 			{metricsQuery.isLoading || metricsQuery.isFetching ? (
 				<ProgressLoader isLoading={true} />
 			) : metricsQuery.isError ? (
-				<p>{metricsQuery.error.message}</p>
+				<p>{metricsQuery.error?.message}</p>
 			) : (
 				<Metrics metrics={metricsQuery.data} />
 			)}

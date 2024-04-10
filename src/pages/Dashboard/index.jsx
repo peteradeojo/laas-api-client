@@ -37,7 +37,7 @@ const Metric = ({ m }) => {
 			</h2>
 			<br />
 
-			<MediaQuery minWidth={415}>
+			{/* <MediaQuery minWidth={415}>
 				<BarChart
 					xAxis={xAxis}
 					series={series}
@@ -54,7 +54,7 @@ const Metric = ({ m }) => {
 					width={280}
 					bottomAxis={'Level'}
 				/>
-			</MediaQuery>
+			</MediaQuery> */}
 		</div>
 	);
 };
@@ -65,17 +65,17 @@ const Metrics = ({ metrics }) => {
 
 const Dashboard = () => {
 	const teamCtx = useContext(TeamContext);
-	const metricsQuery = useGetSummaryMetricsQuery(teamCtx.onTeam);
+	// const metricsQuery = useGetSummaryMetricsQuery(teamCtx.onTeam);
 
 	return (
 		<div className="container">
-			{metricsQuery.isLoading || metricsQuery.isFetching ? (
+			{/* {metricsQuery.isLoading || metricsQuery.isFetching ? (
 				<ProgressLoader isLoading={true} />
 			) : metricsQuery.isError ? (
 				<p>{metricsQuery.error?.message}</p>
 			) : (
 				<Metrics metrics={metricsQuery.data} />
-			)}
+			)} */}
 		</div>
 	);
 };
